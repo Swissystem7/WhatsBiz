@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WhatsBiz IL — הגדרת העסק</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #0a1628; color: #e8edf5; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+
+  .logo { font-size: 1.4rem; font-weight: 700; color: #25d366; margin-bottom: 32px; }
+  .logo span { color: #fff; }
+
+  .wizard { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 40px; max-width: 560px; width: 100%; }
+
+  .steps { display: flex; gap: 8px; margin-bottom: 36px; }
+  .step { flex: 1; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.1); transition: background .3s; }
+  .step.active { background: #25d366; }
+  .step.done { background: rgba(37,211,102,0.5); }
+
+  h2 { font-size: 1.4rem; margin-bottom: 8px; }
+  .subtitle { color: #8899aa; font-size: 0.9rem; margin-bottom: 28px; }
+
+  .field { margin-bottom: 20px; }
+  label { display: block; font-size: 0.88rem; color: #aab; margin-bottom: 6px; }
+  input, textarea, select { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; padding: 12px 14px; color: #e8edf5; font-size: 0.95rem; font-family: inherit; direction: rtl; transition: border-color .2s; }
+  input:focus, textarea:focus, select:focus { outline: none; border-color: #25d366; }
+  textarea { resize: vertical; min-height: 100px; }
+  select option { background: #1a2840; }
+
+  .industry-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .ind-btn { padding: 12px 8px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); cursor: pointer; text-align: center; font-size: 0.85rem; color: #aab; transition: all .2s; }
+  .ind-btn:hover, .ind-btn.selected { border-color: #25d366; color: #25d366; background: rgba(37,211,102,0.08); }
+  .ind-btn .icon { font-size: 1.4rem; display: block; margin-bottom: 4px; }
+
+  .tone-row { display: flex; gap: 10px; }
+  .tone-btn { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); cursor: pointer; text-align: center; font-size: 0.82rem; color: #aab; transition: all .2s; }
+  .tone-btn:hover, .tone-btn.selected { border-color: #25d366; color: #25d366; background: rgba(37,211,102,0.08); }
+
+  .actions { display: flex; gap: 12px; margin-top: 28px; justify-content: space-between; }
+  .btn { padding: 12px 28px; border-radius: 10px; font-weight: 600; cursor: pointer; border: none; font-size: 0.95rem; transition: all .15s; }
+  .btn-primary { background: #25d366; color: #0a1628; flex: 1; }
+  .btn-primary:hover { background: #1fb257; }
+  .btn-secondary { background: rgba(255,255,255,0.06); color: #aab; }
+  .btn-secondary:hover { background: rgba(255,255,255,0.1); }
+
+  .page { display: none; }
+  .page.active { display: block; }
+
+  .success-icon { font-size: 4rem; text-align: center; margin-bottom: 16px; }
+  .token-box { background: rgba(37,211,102,0.08); border: 1px solid rgba(37,211,102,0.2); border-radius: 10px; padding: 14px; font-family: monospace; font-size: 0.85rem; color: #25d366; word-break: break-all; margin: 16px 0; }
+
+  .loading { display: none; text-align: center; padding: 20px; }
+  .spinner { width: 32px; height: 32px; border: 3px solid rgba(37,211,102,0.2); border-top-color: #25d366; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="logo">Whats<span>Biz</span> IL</div>
+
+<div class="wizard">
+  <div class="steps">
+    <div class="step active" id="s1"></div>
+    <div class="step" id="s2"></div>
+    <div class="step" id="s3"></div>
+    <div class="step" id="s4"></div>
+  </div>
+
+  <!-- Step 1: Business profile -->
+  <div class="page active" id="page1">
+    <h2>פרטי העסק</h2>
+    <p class="subtitle">שלב 1 מתוך 3 — ספר לנו על העסק שלך</p>
+
+    <div class="field">
+      <label>שם העסק *</label>
+      <input id="bizName" type="text" placeholder="למשל: מספרה של מיכל">
+    </div>
+
+    <div class="field">
+      <label>תחום עיסוק</label>
+      <div class="industry-grid">
+        <div class="ind-btn selected" data-val="מסעדה"><span class="icon">🍕</span>מסעדה</div>
+        <div class="ind-btn" data-val="קליניקה"><span class="icon">🏥</span>קליניקה</div>
+        <div class="ind-btn" data-val="חנות"><span class="icon">🛍️</span>חנות</div>
+        <div class="ind-btn" data-val="שירותים"><span class="icon">🔧</span>שירותים</div>
+        <div class="ind-btn" data-val="מספרה"><span class="icon">✂️</span>מספרה/יופי</div>
+        <div class="ind-btn" data-val="אחר"><span class="icon">💼</span>אחר</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>טלפון (לתצוגה בלבד)</label>
+      <input id="bizPhone" type="text" placeholder="050-1234567">
+    </div>
+
+    <div class="field">
+      <label>תיאור קצר של העסק</label>
+      <textarea id="bizDesc" placeholder="למשל: מספרה לגברים ונשים בתל אביב, מתמחים בצביעה ועיצוב שיער..."></textarea>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="goTo(2)">הבא ←</button>
+    </div>
+  </div>
+
+  <!-- Step 2: Bot persona -->
+  <div class="page" id="page2">
+    <h2>אישיות הבוט</h2>
+    <p class="subtitle">שלב 2 מתוך 3 — איך הבוט ידבר עם הלקוחות?</p>
+
+    <div class="field">
+      <label>הודעת פתיחה</label>
+      <input id="greeting" type="text" value="שלום! שמחים שפנית אלינו. איך נוכל לעזור?">
+    </div>
+
+    <div class="field">
+      <label>טון דיבור</label>
+      <div class="tone-row">
+        <div class="tone-btn" data-val="מקצועי">🎩 מקצועי</div>
+        <div class="tone-btn selected" data-val="ידידותי">😊 ידידותי</div>
+        <div class="tone-btn" data-val="קצר ותכליתי">⚡ קצר</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>שפות</label>
+      <select id="langs">
+        <option value="עברית">עברית בלבד</option>
+        <option value="עברית, אנגלית">עברית + אנגלית</option>
+        <option value="עברית, ערבית">עברית + ערבית</option>
+        <option value="עברית, רוסית">עברית + רוסית</option>
+        <option value="עברית, אנגלית, ערבית, רוסית">כל השפות</option>
+      </select>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-secondary" onclick="goTo(1)">← חזור</button>
+      <button class="btn btn-primary" onclick="goTo(3)">הבא ←</button>
+    </div>
+  </div>
+
+  <!-- Step 3: Knowledge -->
+  <div class="page" id="page3">
+    <h2>בסיס הידע</h2>
+    <p class="subtitle">שלב 3 מתוך 3 — מה הבוט צריך לדעת?</p>
+
+    <div class="field">
+      <label>שאלות נפוצות, שעות פעילות, מחירים, מדיניות...</label>
+      <textarea id="knowledge" placeholder="למשל:
+שעות פעילות: ראשון-חמישי 9:00-20:00, שישי 9:00-14:00
+תספורת גברים: ₪80
+תספורת נשים: ₪120
+צביעה: ₪200 ומעלה
+ניתן לקבוע תור בוואטסאפ או בטלפון 050-1234567" style="min-height:160px;"></textarea>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-secondary" onclick="goTo(2)">← חזור</button>
+      <button class="btn btn-primary" onclick="submitOnboarding()">יצירת הבוט! 🚀</button>
+    </div>
+  </div>
+
+  <!-- Step 4: Success -->
+  <div class="page" id="page4">
+    <div class="success-icon">🎉</div>
+    <h2 style="text-align:center;">הבוט שלך מוכן!</h2>
+    <p class="subtitle" style="text-align:center;">תוך שניות תועבר ללוח הבקרה לניהול וצ'אט חי</p>
+    <div class="token-box" id="tokenBox"></div>
+    <div class="actions" style="justify-content:center;">
+      <button class="btn btn-primary" onclick="goDashboard()">ללוח הבקרה ←</button>
+    </div>
+  </div>
+
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <p style="color:#8899aa;">יוצר את הבוט שלך...</p>
+  </div>
+</div>
+
+<script>
+let currentStep = 1;
+let selectedIndustry = 'מסעדה';
+let selectedTone = 'ידידותי';
+let businessId = null;
+
+document.querySelectorAll('.ind-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.ind-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedIndustry = btn.dataset.val;
+  });
+});
+
+document.querySelectorAll('.tone-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tone-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedTone = btn.dataset.val;
+  });
+});
+
+function goTo(step) {
+  if (step === 2 && !document.getElementById('bizName').value.trim()) {
+    alert('נא להזין שם עסק');
+    return;
+  }
+  document.getElementById('page' + currentStep).classList.remove('active');
+  document.getElementById('page' + step).classList.add('active');
+  for (let i = 1; i <= 4; i++) {
+    const el = document.getElementById('s' + i);
+    el.classList.remove('active', 'done');
+    if (i < step) el.classList.add('done');
+    else if (i === step) el.classList.add('active');
+  }
+  currentStep = step;
+}
+
+async function submitOnboarding() {
+  document.getElementById('page3').classList.remove('active');
+  document.getElementById('loading').style.display = 'block';
+
+  const payload = {
+    name: document.getElementById('bizName').value.trim() || 'העסק שלי',
+    industry: selectedIndustry,
+    phone: document.getElementById('bizPhone').value.trim(),
+    description: document.getElementById('bizDesc').value.trim(),
+    greeting: document.getElementById('greeting').value.trim(),
+    tone: selectedTone,
+    languages: document.getElementById('langs').value,
+    knowledge: document.getElementById('knowledge').value.trim(),
+  };
+
+  try {
+    const res = await fetch('/api/onboarding', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    businessId = data.business_id;
+    localStorage.setItem('whatsbiz_business_id', businessId);
+    localStorage.setItem('whatsbiz_business_name', data.name);
+
+    document.getElementById('tokenBox').textContent = 'מזהה עסק: ' + data.business_id;
+    document.getElementById('loading').style.display = 'none';
+    goTo(4);
+  } catch (e) {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('page3').classList.add('active');
+    alert('שגיאה ביצירת העסק: ' + e.message);
+  }
+}
+
+function goDashboard() {
+  window.location.href = '/dashboard?id=' + businessId;
+}
+</script>
+</body>
+</html>

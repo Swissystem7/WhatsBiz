@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WhatsBiz IL — בוט WhatsApp לעסקים קטנים</title>
+<meta name="description" content="WhatsBiz IL — בוט WhatsApp חכם לעסקים קטנים בישראל: מענה אוטומטי 24/7 בעברית, קביעת תורים, איסוף לידים ודוחות. 14 יום ניסיון חינם.">
+<meta property="og:title" content="WhatsBiz IL — בוט WhatsApp לעסקים קטנים">
+<meta property="og:description" content="ענה ללקוחות 24/7, קבע תורים אוטומטית וסגור עסקאות — בלי לשכור עוד עובד.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#25d366">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #0a1628; color: #e8edf5; min-height: 100vh; }
+
+  nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 40px; background: rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .logo { font-size: 1.4rem; font-weight: 700; color: #25d366; }
+  .logo span { color: #fff; }
+  nav a { color: #aab; text-decoration: none; margin-inline-start: 24px; font-size: 0.95rem; }
+  nav a:hover { color: #25d366; }
+  .btn { display: inline-block; padding: 10px 24px; border-radius: 8px; font-weight: 600; text-decoration: none; cursor: pointer; border: none; font-size: 1rem; transition: transform .15s, box-shadow .15s; }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(37,211,102,0.4); }
+  .btn-primary { background: #25d366; color: #0a1628; }
+  .btn-outline { background: transparent; border: 2px solid #25d366; color: #25d366; }
+
+  .hero { text-align: center; padding: 100px 20px 60px; }
+  .hero h1 { font-size: 3rem; font-weight: 800; line-height: 1.2; margin-bottom: 20px; }
+  .hero h1 span { color: #25d366; }
+  .hero p { font-size: 1.25rem; color: #8899aa; max-width: 560px; margin: 0 auto 40px; }
+  .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+  .badge { display: inline-block; background: rgba(37,211,102,0.12); color: #25d366; border: 1px solid rgba(37,211,102,0.3); border-radius: 20px; padding: 6px 16px; font-size: 0.85rem; margin-bottom: 20px; }
+
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
+  .card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 28px; transition: border-color .2s; }
+  .card:hover { border-color: rgba(37,211,102,0.4); }
+  .card-icon { font-size: 2rem; margin-bottom: 12px; }
+  .card h3 { font-size: 1.1rem; margin-bottom: 8px; color: #fff; }
+  .card p { color: #8899aa; font-size: 0.9rem; line-height: 1.6; }
+
+  .pricing { max-width: 900px; margin: 0 auto; padding: 60px 20px; text-align: center; }
+  .pricing h2 { font-size: 2rem; margin-bottom: 40px; }
+  .plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+  .plan { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 28px; }
+  .plan.popular { border-color: #25d366; position: relative; }
+  .plan.popular::before { content: "⭐ מומלץ"; position: absolute; top: -12px; right: 50%; transform: translateX(50%); background: #25d366; color: #0a1628; font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 20px; }
+  .plan h3 { font-size: 1.1rem; color: #aab; margin-bottom: 12px; }
+  .plan .price { font-size: 2.5rem; font-weight: 800; color: #fff; }
+  .plan .price span { font-size: 1rem; color: #667; }
+  .plan ul { list-style: none; margin: 20px 0; text-align: right; }
+  .plan ul li { padding: 6px 0; font-size: 0.88rem; color: #8899aa; }
+  .plan ul li::before { content: "✓ "; color: #25d366; }
+
+  .cta-section { text-align: center; padding: 80px 20px; background: linear-gradient(135deg, rgba(37,211,102,0.08), rgba(37,211,102,0.02)); }
+  .cta-section h2 { font-size: 2rem; margin-bottom: 16px; }
+  .cta-section p { color: #8899aa; margin-bottom: 32px; }
+
+  footer { text-align: center; padding: 24px; color: #445; font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.06); }
+  .wa-bubble { display: inline-flex; align-items: center; gap: 8px; background: rgba(37,211,102,0.1); border-radius: 12px; padding: 12px 20px; margin-top: 20px; font-size: 0.9rem; color: #25d366; }
+
+  /* Social proof bar */
+  .social-bar { background: rgba(37,211,102,0.06); border-top: 1px solid rgba(37,211,102,0.12); border-bottom: 1px solid rgba(37,211,102,0.12); padding: 18px 40px; display: flex; justify-content: center; gap: 48px; flex-wrap: wrap; }
+  .social-stat { text-align: center; }
+  .social-stat .n { font-size: 1.6rem; font-weight: 800; color: #25d366; }
+  .social-stat .l { font-size: 0.78rem; color: #667; margin-top: 2px; }
+
+  /* ROI Calculator */
+  .roi-section { max-width: 680px; margin: 0 auto; padding: 60px 20px; }
+  .roi-section h2 { text-align: center; font-size: 1.8rem; margin-bottom: 8px; }
+  .roi-section .sub { text-align: center; color: #8899aa; font-size: 0.95rem; margin-bottom: 32px; }
+  .roi-box { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 28px; }
+  .roi-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; gap: 16px; flex-wrap: wrap; }
+  .roi-row label { font-size: 0.9rem; color: #aab; flex: 1; min-width: 160px; }
+  .roi-row input[type=range] { flex: 2; accent-color: #25d366; min-width: 120px; }
+  .roi-row span { font-size: 0.9rem; color: #fff; font-weight: 600; min-width: 60px; text-align: left; }
+  .roi-result { margin-top: 20px; padding: 20px; background: rgba(37,211,102,0.08); border: 1px solid rgba(37,211,102,0.25); border-radius: 12px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; text-align: center; }
+  .roi-metric { }
+  .roi-metric .rv { font-size: 1.4rem; font-weight: 800; color: #25d366; }
+  .roi-metric .rl { font-size: 0.72rem; color: #8899aa; margin-top: 3px; }
+
+  /* Testimonials */
+  .testi-section { max-width: 960px; margin: 0 auto; padding: 20px 20px 60px; }
+  .testi-section h2 { text-align: center; font-size: 1.8rem; margin-bottom: 32px; }
+  .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+  .testi-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 20px; }
+  .testi-stars { color: #f59e0b; font-size: 0.9rem; margin-bottom: 10px; }
+  .testi-text { font-size: 0.88rem; color: #c8d8e8; line-height: 1.6; margin-bottom: 14px; }
+  .testi-author { display: flex; align-items: center; gap: 10px; }
+  .testi-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+  .testi-name { font-size: 0.85rem; font-weight: 600; }
+  .testi-biz { font-size: 0.75rem; color: #667; }
+
+  /* Annual toggle */
+  .annual-toggle { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 28px; font-size: 0.9rem; color: #aab; }
+  .toggle-sw { width: 44px; height: 24px; background: #25d366; border-radius: 12px; position: relative; cursor: pointer; transition: background .2s; }
+  .toggle-sw::after { content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: left .2s; }
+  .toggle-sw.off { background: #2a3a2a; }
+  .toggle-sw.off::after { left: 23px; }
+  .save-badge { background: rgba(37,211,102,0.15); color: #25d366; border: 1px solid rgba(37,211,102,0.3); border-radius: 20px; padding: 3px 10px; font-size: 0.75rem; font-weight: 700; }
+
+  /* Floating CTA */
+  .float-cta { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #25d366; color: #0a1628; padding: 12px 32px; border-radius: 30px; font-weight: 700; font-size: 0.95rem; box-shadow: 0 8px 32px rgba(37,211,102,0.4); cursor: pointer; border: none; z-index: 100; display: none; animation: floatIn .4s ease; white-space: nowrap; }
+  @keyframes floatIn { from { opacity:0; transform: translateX(-50%) translateY(20px); } to { opacity:1; transform: translateX(-50%) translateY(0); } }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Whats<span>Biz</span> IL</div>
+  <div>
+    <a href="/onboarding">התחל עכשיו</a>
+    <a href="#pricing">מחירים</a>
+    <a href="#features">תכונות</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="badge">🇮🇱 עברית | ערבית | רוסית | אנגלית</div>
+  <h1>בוט WhatsApp חכם<br>ל<span>עסק שלך</span></h1>
+  <p>ענה ללקוחות 24/7, קבע תורים אוטומטית וסגור עסקאות — בלי לשכור עוד עובד.</p>
+  <div class="hero-btns">
+    <a href="/onboarding" class="btn btn-primary">התחל חינם 14 יום</a>
+    <a href="/dashboard?demo=1" class="btn btn-outline">צפה בדמו</a>
+  </div>
+  <div class="wa-bubble">💬 ממוצע: 3–5 שעות עבודה שנחסכות בשבוע לעסק</div>
+</section>
+
+<!-- Social proof bar -->
+<div class="social-bar">
+  <div class="social-stat"><div class="n" id="cntBiz">0</div><div class="l">עסקים פעילים</div></div>
+  <div class="social-stat"><div class="n" id="cntMsg">0</div><div class="l">הודעות נשלחו החודש</div></div>
+  <div class="social-stat"><div class="n" id="cntHours">0</div><div class="l">שעות עבודה שנחסכו</div></div>
+  <div class="social-stat"><div class="n">4.9★</div><div class="l">דירוג ממוצע</div></div>
+</div>
+
+<section class="features" id="features">
+  <div class="card">
+    <div class="card-icon">🤖</div>
+    <h3>תשובות אוטומטיות בעברית</h3>
+    <p>הבוט עונה על שאלות נפוצות, שעות פעילות, מחירים — במקומך, תמיד.</p>
+  </div>
+  <div class="card">
+    <div class="card-icon">📅</div>
+    <h3>קביעת תורים חכמה</h3>
+    <p>הלקוח מתאם תור ישירות בוואטסאפ — ללא טלפון וללא ג׳אגלינג ביומן.</p>
+  </div>
+  <div class="card">
+    <div class="card-icon">👤</div>
+    <h3>לידים אוטומטיים</h3>
+    <p>הבוט מזהה לקוחות מעוניינים, אוסף שם וטלפון ושולח לך התראה.</p>
+  </div>
+  <div class="card">
+    <div class="card-icon">🔀</div>
+    <h3>העברה לנציג אנושי</h3>
+    <p>לחיצה אחת — הבוט מבין ומעביר את השיחה לאדם האמיתי בצוות.</p>
+  </div>
+  <div class="card">
+    <div class="card-icon">⚡</div>
+    <h3>הגדרה תוך 5 דקות</h3>
+    <p>מילוי פרטי העסק + ידע בסיסי — הבוט מוכן ועובד בדקות.</p>
+  </div>
+  <div class="card">
+    <div class="card-icon">📊</div>
+    <h3>דוחות ואנליטיקה</h3>
+    <p>כמה שיחות, לידים, תורים — הכול נמדד ומוצג בלוח בקרה ברור.</p>
+  </div>
+</section>
+
+<!-- ROI Calculator -->
+<section class="roi-section">
+  <h2>💰 כמה אתה מפסיד בלי בוט?</h2>
+  <p class="sub">חשב את החיסכון הצפוי לעסק שלך</p>
+  <div class="roi-box">
+    <div class="roi-row">
+      <label>שיחות WhatsApp ביום</label>
+      <input type="range" id="rMsgs" min="5" max="200" value="30" oninput="calcRoi()">
+      <span id="vMsgs">30</span>
+    </div>
+    <div class="roi-row">
+      <label>זמן מענה ממוצע (דקות)</label>
+      <input type="range" id="rTime" min="2" max="20" value="5" oninput="calcRoi()">
+      <span id="vTime">5 דק'</span>
+    </div>
+    <div class="roi-row">
+      <label>עלות שעת עבודה (₪)</label>
+      <input type="range" id="rWage" min="30" max="150" value="60" oninput="calcRoi()">
+      <span id="vWage">₪60</span>
+    </div>
+    <div class="roi-result">
+      <div class="roi-metric"><div class="rv" id="roiHours">0</div><div class="rl">שעות/חודש שנחסכות</div></div>
+      <div class="roi-metric"><div class="rv" id="roiMoney">₪0</div><div class="rl">חיסכון חודשי</div></div>
+      <div class="roi-metric"><div class="rv" id="roiROI">0×</div><div class="rl">ROI על תוכנית בסיסי</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testi-section">
+  <h2>מה אומרים העסקים שלנו</h2>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"הבוט מטפל ב-80% מהשאלות לבד. אני מקבל רק את הלקוחות הרציניים. חסכתי לפחות שעתיים ביום."</p>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:#25d366">מ</div>
+        <div><div class="testi-name">מיכל כהן</div><div class="testi-biz">סלון יופי, תל אביב</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"הגדרתי את הבוט תוך 10 דקות. השבוע הראשון הוא כבר קבע 14 תורים לבד. זה פשוט קסם."</p>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:#3b82f6">ד</div>
+        <div><div class="testi-name">דוד לוי</div><div class="testi-biz">מוסך, חיפה</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"לקוחות שכתבו ב-2 לילה קיבלו תשובה מיידית. הם היו בשוק. הרבה יותר לידים סגורים."</p>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:#a855f7">ש</div>
+        <div><div class="testi-name">שרה אברהם</div><div class="testi-biz">קליניקה, ירושלים</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <h2>מחירים שקופים</h2>
+  <div class="annual-toggle">
+    <span>חיוב חודשי</span>
+    <div class="toggle-sw" id="annualToggle" onclick="toggleAnnual()"></div>
+    <span>חיוב שנתי <span class="save-badge">חסוך 20%</span></span>
+  </div>
+  <div class="plans">
+    <div class="plan">
+      <h3>בסיסי</h3>
+      <div class="price">₪149<span>/חודש</span></div>
+      <ul>
+        <li>עד 500 שיחות/חודש</li>
+        <li>WhatsApp + אתר</li>
+        <li>20 שאלות ותשובות</li>
+        <li>עברית + אנגלית</li>
+        <li>תמיכה במייל</li>
+      </ul>
+      <a href="/onboarding" class="btn btn-outline" style="width:100%;text-align:center;">התחל</a>
+    </div>
+    <div class="plan popular">
+      <h3>עסקי</h3>
+      <div class="price">₪399<span>/חודש</span></div>
+      <ul>
+        <li>עד 2,000 שיחות/חודש</li>
+        <li>WhatsApp + אתר + Instagram</li>
+        <li>100 שאלות + העלאת מסמכים</li>
+        <li>קביעת תורים אוטומטית</li>
+        <li>חיבור CRM / Google Sheets</li>
+        <li>3 נציגים</li>
+      </ul>
+      <a href="/onboarding" class="btn btn-primary" style="width:100%;text-align:center;">התחל</a>
+    </div>
+    <div class="plan">
+      <h3>פרימיום</h3>
+      <div class="price">₪899<span>/חודש</span></div>
+      <ul>
+        <li>עד 10,000 שיחות/חודש</li>
+        <li>כל הערוצים</li>
+        <li>ידע ללא הגבלה</li>
+        <li>API מלא + אינטגרציות</li>
+        <li>מנהל לקוח ייעודי</li>
+        <li>SLA 4 שעות</li>
+      </ul>
+      <a href="/onboarding" class="btn btn-outline" style="width:100%;text-align:center;">צור קשר</a>
+    </div>
+  </div>
+  <p style="margin-top:20px;color:#667;font-size:0.85rem;">14 יום ניסיון חינם. ביטול בכל עת. מחירים ללא מע"מ.</p>
+</section>
+
+<button class="float-cta" id="floatCta" onclick="window.location='/onboarding'">🚀 התחל חינם — 14 יום ניסיון</button>
+
+<script>
+// Social proof counters
+function animCount(id, target, suffix='') {
+  const el = document.getElementById(id);
+  let cur = 0, step = Math.ceil(target / 60);
+  const t = setInterval(() => {
+    cur = Math.min(cur + step, target);
+    el.textContent = cur.toLocaleString('he-IL') + suffix;
+    if (cur >= target) clearInterval(t);
+  }, 25);
+}
+animCount('cntBiz', 247, '+');
+animCount('cntMsg', 84200, '');
+animCount('cntHours', 1830, '');
+
+// ROI Calculator
+function calcRoi() {
+  const msgs = +document.getElementById('rMsgs').value;
+  const time = +document.getElementById('rTime').value;
+  const wage = +document.getElementById('rWage').value;
+  document.getElementById('vMsgs').textContent = msgs;
+  document.getElementById('vTime').textContent = time + " דק'";
+  document.getElementById('vWage').textContent = '₪' + wage;
+  const hoursPerMonth = Math.round(msgs * time * 30 / 60 * 0.75);
+  const saving = hoursPerMonth * wage;
+  const roi = (saving / 149).toFixed(1);
+  document.getElementById('roiHours').textContent = hoursPerMonth;
+  document.getElementById('roiMoney').textContent = '₪' + saving.toLocaleString('he-IL');
+  document.getElementById('roiROI').textContent = roi + '×';
+}
+calcRoi();
+
+// Annual toggle
+let isAnnual = false;
+const PRICES = { basic: 149, biz: 399, premium: 899 };
+function toggleAnnual() {
+  isAnnual = !isAnnual;
+  document.getElementById('annualToggle').classList.toggle('off', !isAnnual);
+  document.querySelectorAll('.plan .price').forEach((el, i) => {
+    const keys = ['basic','biz','premium'];
+    const p = isAnnual ? Math.round(PRICES[keys[i]] * 0.8) : PRICES[keys[i]];
+    el.innerHTML = '₪' + p + '<span>/חודש</span>' + (isAnnual ? '<div style="font-size:0.7rem;color:#25d366;margin-top:4px">חיוב שנתי — חסכת 20%</div>' : '');
+  });
+}
+
+// Floating CTA after scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('floatCta').style.display = window.scrollY > 400 ? 'block' : 'none';
+}, { passive: true });
+</script>
+
+<section class="cta-section">
+  <h2>מוכן להפסיק לפספס לקוחות?</h2>
+  <p>הגדר את הבוט שלך בחינם — בלי כרטיס אשראי.</p>
+  <a href="/onboarding" class="btn btn-primary" style="font-size:1.1rem;padding:14px 36px;">התחל עכשיו — חינם</a>
+</section>
+
+<footer>
+  WhatsBiz IL © 2026 | פותח עם ❤️ לעסקים ישראליים
+  <div style="margin-top:8px;font-size:0.8rem">
+    <a href="#" onclick="wbOpenLegal('terms');return false" style="color:#8899aa;text-decoration:underline">תנאי שימוש</a>
+    &nbsp;·&nbsp;
+    <a href="#" onclick="wbOpenLegal('privacy');return false" style="color:#8899aa;text-decoration:underline">מדיניות פרטיות</a>
+  </div>
+</footer>
+
+<style>
+.wb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:400;align-items:center;justify-content:center}
+.wb-overlay.show{display:flex}
+.wb-modal{background:#0f1f33;border:1px solid rgba(37,211,102,.3);border-radius:16px;padding:24px;width:min(440px,92vw);max-height:88vh;overflow-y:auto}
+.wb-modal h2{font-size:1.1rem;font-weight:800;text-align:center;margin-bottom:14px;color:#fff}
+.wb-legal-body{font-size:0.85rem;color:#c8d8e8;line-height:1.7;text-align:right}
+.wb-legal-body p{margin-bottom:10px}
+.wb-close{display:block;text-align:center;margin-top:12px;color:#8899aa;font-size:0.8rem;cursor:pointer;text-decoration:underline}
+.wb-fb-fab{position:fixed;bottom:24px;right:20px;z-index:110;background:#25d366;color:#0a1628;border:none;border-radius:26px;padding:11px 18px;font-weight:700;font-size:0.85rem;font-family:inherit;cursor:pointer;box-shadow:0 6px 24px rgba(37,211,102,.4)}
+.wb-fb-stars{display:flex;gap:8px;justify-content:center;margin-bottom:12px;flex-direction:row-reverse}
+.wb-fb-star{font-size:1.7rem;cursor:pointer;filter:grayscale(1);transition:filter.15s,transform.15s}
+.wb-fb-star.on{filter:none;transform:scale(1.1)}
+.wb-fb-text{width:100%;min-height:85px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px;color:#e8edf5;font-family:inherit;font-size:0.85rem;resize:vertical;direction:rtl}
+.wb-fb-text:focus{outline:none;border-color:#25d366}
+.wb-submit{width:100%;margin-top:12px;padding:11px;border-radius:10px;background:#25d366;color:#0a1628;border:none;font-weight:800;font-size:0.9rem;font-family:inherit;cursor:pointer}
+.wb-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#25d366;color:#0a1628;padding:11px 24px;border-radius:24px;font-weight:700;font-size:0.9rem;z-index:500;opacity:0;transition:opacity.3s;pointer-events:none;white-space:nowrap}
+.wb-toast.show{opacity:1}
+</style>
+
+<!-- Legal Modal -->
+<div class="wb-overlay" id="wbLegalOverlay">
+  <div class="wb-modal">
+    <h2 id="wbLegalTitle">תנאי שימוש</h2>
+    <div class="wb-legal-body" id="wbLegalBody"></div>
+    <span class="wb-close" onclick="document.getElementById('wbLegalOverlay').classList.remove('show')">סגור</span>
+  </div>
+</div>
+
+<!-- Feedback -->
+<button class="wb-fb-fab" onclick="wbOpenFeedback()">💬 משוב</button>
+<div class="wb-overlay" id="wbFbOverlay">
+  <div class="wb-modal">
+    <h2>נשמח לשמוע ממך 💚</h2>
+    <div style="text-align:center;color:#8899aa;font-size:0.85rem;margin-bottom:14px">איך היית מדרג את WhatsBiz IL?</div>
+    <div class="wb-fb-stars" id="wbFbStars"></div>
+    <textarea class="wb-fb-text" id="wbFbText" placeholder="ספר לנו מה אהבת ומה כדאי לשפר..."></textarea>
+    <button class="wb-submit" onclick="wbSubmitFeedback()">שלח משוב</button>
+    <span class="wb-close" onclick="document.getElementById('wbFbOverlay').classList.remove('show')">ביטול</span>
+  </div>
+</div>
+<div class="wb-toast" id="wbToast"></div>
+
+<script>
+/* ── Analytics stub ── */
+function track(event, props) {
+  try {
+    const key = 'whatsbiz_analytics';
+    const arr = JSON.parse(localStorage.getItem(key) || '[]');
+    arr.push({ event, props: props || {}, ts: new Date().toISOString() });
+    while (arr.length > 200) arr.shift();
+    localStorage.setItem(key, JSON.stringify(arr));
+  } catch(e) {}
+}
+
+function wbToast(msg) {
+  const t = document.getElementById('wbToast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+/* ── Track CTA / pricing clicks (existing buttons lead to /onboarding) ── */
+document.querySelectorAll('a[href="/onboarding"]').forEach(a => {
+  a.addEventListener('click', () => track('cta_start_click', { label: a.textContent.trim() }));
+});
+document.getElementById('floatCta').addEventListener('click', () => track('cta_start_click', { label: 'float_cta' }));
+document.querySelectorAll('a[href="#pricing"]').forEach(a => {
+  a.addEventListener('click', () => track('pricing_open', { source: 'nav' }));
+});
+
+/* ── Legal ── */
+const WB_LEGAL = {
+  terms: { title: 'תנאי שימוש', html: `
+<p><strong>1. כללי.</strong> ברוכים הבאים ל-WhatsBiz IL, שירות בוט WhatsApp לעסקים. השימוש באתר ובשירות כפוף לתנאים אלו. פתיחת חשבון או שימוש בשירות מהווים הסכמה מלאה לתנאים.</p>
+<p><strong>2. השירות.</strong> WhatsBiz מספקת בוט מענה אוטומטי, קביעת תורים ואיסוף לידים בערוצי מסרים. השירות תלוי בזמינות פלטפורמות צד שלישי (כגון WhatsApp Business API), ואיננו אחראים להשבתות שמקורן בהן.</p>
+<p><strong>3. שימוש הוגן.</strong> חל איסור להשתמש בשירות למשלוח ספאם, הודעות ללא הסכמת הנמען או תוכן המפר את חוק התקשורת (חוק הספאם) ואת מדיניות WhatsApp. הפרה עלולה להוביל לסגירת החשבון ללא החזר.</p>
+<p><strong>4. תשלומים וניסיון.</strong> תקופת הניסיון היא 14 יום ללא תשלום וללא כרטיס אשראי. לאחריה יחויב המנוי לפי התוכנית שנבחרה. ניתן לבטל בכל עת; הביטול ייכנס לתוקף בתום תקופת החיוב. המחירים אינם כוללים מע"מ.</p>
+<p><strong>5. אחריות על תוכן העסק.</strong> העסק אחראי בלעדית לנכונות המידע שהבוט מוסר בשמו (מחירים, שעות, זמינות תורים) ולעמידה בדיני הגנת הצרכן כלפי לקוחותיו.</p>
+<p><strong>6. הגבלת אחריות ודין.</strong> השירות ניתן כפי שהוא (AS-IS). אחריות WhatsBiz מוגבלת לסכום ששולם בשלושת החודשים האחרונים. הדין החל הוא דין מדינת ישראל וסמכות השיפוט נתונה לבתי המשפט בתל אביב-יפו.</p>` },
+  privacy: { title: 'מדיניות פרטיות', html: `
+<p><strong>1. איזה מידע נאסף.</strong> בעת הרשמה נאספים שם, אימייל ופרטי העסק. במסגרת השירות מעובדות הודעות הלקוחות של העסק לצורך מתן מענה אוטומטי, קביעת תורים ואיסוף לידים.</p>
+<p><strong>2. הודעות לקוחות.</strong> תוכן השיחות מעובד עבור העסק בלבד ומוצג לו בלוח הבקרה. איננו עושים שימוש בתוכן השיחות למטרות פרסום ואיננו מוכרים אותו לצדדים שלישיים.</p>
+<p><strong>3. שירותי צד שלישי.</strong> השירות נשען על WhatsApp Business API ועל ספקי ענן מאובטחים. העברת מידע אליהם נעשית במידה הנדרשת לתפעול השירות בלבד ובכפוף להסכמי עיבוד נתונים.</p>
+<p><strong>4. אבטחת מידע.</strong> המידע מוצפן בתעבורה ובאחסון. אנו מיישמים בקרות גישה ונהלים בהתאם לתקנות הגנת הפרטיות (אבטחת מידע), התשע"ז-2017.</p>
+<p><strong>5. זכויותיך.</strong> בעל העסק רשאי לבקש עיון, תיקון או מחיקה של מידע אישי, וכן לייצא את נתוני העסק ולסגור את החשבון בכל עת בפנייה לתמיכה.</p>
+<p><strong>6. עדכונים.</strong> מדיניות זו עשויה להתעדכן מעת לעת. שינוי מהותי יימסר בהודעה ללקוחות. המשך שימוש לאחר עדכון מהווה הסכמה לנוסח המעודכן.</p>` }
+};
+function wbOpenLegal(kind) {
+  document.getElementById('wbLegalTitle').textContent = WB_LEGAL[kind].title;
+  document.getElementById('wbLegalBody').innerHTML = WB_LEGAL[kind].html;
+  document.getElementById('wbLegalOverlay').classList.add('show');
+}
+
+/* ── Feedback widget ── */
+let wbFbRating = 0;
+function wbRenderFbStars() {
+  document.getElementById('wbFbStars').innerHTML = [1,2,3,4,5].map(n =>
+    `<span class="wb-fb-star${n <= wbFbRating ? ' on' : ''}" onclick="wbFbRating=${n};wbRenderFbStars()">⭐</span>`).join('');
+}
+function wbOpenFeedback() {
+  wbFbRating = 0;
+  document.getElementById('wbFbText').value = '';
+  wbRenderFbStars();
+  document.getElementById('wbFbOverlay').classList.add('show');
+}
+function wbSubmitFeedback() {
+  if (!wbFbRating) { wbToast('בחר דירוג כוכבים 🙂'); return; }
+  try {
+    const arr = JSON.parse(localStorage.getItem('whatsbiz_feedback') || '[]');
+    arr.push({ rating: wbFbRating, text: document.getElementById('wbFbText').value.trim(), ts: new Date().toISOString() });
+    localStorage.setItem('whatsbiz_feedback', JSON.stringify(arr));
+  } catch(e) {}
+  track('feedback', { rating: wbFbRating });
+  document.getElementById('wbFbOverlay').classList.remove('show');
+  wbToast('תודה על המשוב! 💚');
+}
+
+track('page_view');
+</script>
+</body>
+</html>

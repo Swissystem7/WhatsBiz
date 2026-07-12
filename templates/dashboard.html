@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WhatsBiz IL — לוח בקרה</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #0a1628; color: #e8edf5; height: 100vh; display: flex; flex-direction: column; }
+
+  nav { display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.08); flex-shrink: 0; }
+  .logo { font-size: 1.2rem; font-weight: 700; color: #25d366; }
+  .logo span { color: #fff; }
+  .biz-name { color: #aab; font-size: 0.9rem; }
+  .nav-tabs { display: flex; gap: 4px; }
+  .tab { padding: 7px 16px; border-radius: 8px; cursor: pointer; font-size: 0.88rem; color: #8899aa; border: none; background: transparent; transition: all .2s; }
+  .tab.active { background: rgba(37,211,102,0.12); color: #25d366; }
+  .tab:hover { color: #fff; }
+  .demo-badge { background: rgba(255,200,0,0.15); color: #ffd700; border: 1px solid rgba(255,200,0,0.3); border-radius: 6px; padding: 4px 10px; font-size: 0.78rem; }
+
+  .main { display: flex; flex: 1; overflow: hidden; }
+
+  /* Config Panel */
+  .config-panel { width: 380px; border-inline-end: 1px solid rgba(255,255,255,0.08); padding: 20px; overflow-y: auto; flex-shrink: 0; }
+  .config-panel h3 { font-size: 0.95rem; color: #8899aa; margin-bottom: 16px; text-transform: uppercase; letter-spacing: .5px; }
+  .field { margin-bottom: 16px; }
+  label { display: block; font-size: 0.82rem; color: #8899aa; margin-bottom: 5px; }
+  input, textarea, select { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 9px 12px; color: #e8edf5; font-size: 0.88rem; font-family: inherit; direction: rtl; }
+  input:focus, textarea:focus, select:focus { outline: none; border-color: #25d366; }
+  textarea { resize: vertical; min-height: 90px; }
+  select option { background: #1a2840; }
+  .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .toggle-row label { margin: 0; font-size: 0.88rem; color: #e8edf5; }
+  .toggle { position: relative; width: 38px; height: 22px; }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .slider { position: absolute; inset: 0; background: rgba(255,255,255,0.1); border-radius: 22px; cursor: pointer; transition: background .2s; }
+  .slider::before { content: ''; position: absolute; width: 16px; height: 16px; border-radius: 50%; background: #fff; bottom: 3px; right: 3px; transition: transform .2s; }
+  input:checked + .slider { background: #25d366; }
+  input:checked + .slider::before { transform: translateX(-16px); }
+  .save-btn { width: 100%; padding: 11px; background: #25d366; color: #0a1628; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 0.95rem; margin-top: 8px; transition: background .2s; }
+  .save-btn:hover { background: #1fb257; }
+  .prompt-preview { background: rgba(0,0,0,0.3); border-radius: 8px; padding: 12px; font-size: 0.75rem; color: #6677aa; font-family: monospace; white-space: pre-wrap; max-height: 150px; overflow-y: auto; margin-top: 8px; }
+  .toast { position: fixed; bottom: 20px; right: 20px; background: #25d366; color: #0a1628; padding: 10px 20px; border-radius: 10px; font-weight: 600; opacity: 0; transition: opacity .3s; pointer-events: none; z-index: 100; }
+  .toast.show { opacity: 1; }
+
+  /* Notification badge on tab */
+  .tab-badge { display: inline-flex; align-items: center; justify-content: center; background: #ef4444; color: #fff; border-radius: 10px; padding: 1px 6px; font-size: 0.62rem; font-weight: 800; min-width: 18px; margin-inline-start: 5px; animation: badgePop .3s ease; }
+  @keyframes badgePop { 0%{transform:scale(0.5)} 80%{transform:scale(1.15)} 100%{transform:scale(1)} }
+
+  /* Sparkline mini bars */
+  .sparkline { display: flex; align-items: flex-end; gap: 3px; height: 28px; margin-top: 10px; }
+  .spark-bar { flex: 1; border-radius: 2px; min-height: 3px; transition: height .4s ease; }
+
+  /* Convo empty state */
+  .convo-empty { padding: 20px 14px; text-align: center; color: #556; font-size: 0.82rem; line-height: 1.7; }
+  .convo-empty .copy-link-btn { margin-top: 10px; display: inline-block; padding: 6px 14px; background: rgba(37,211,102,0.12); color: #25d366; border: 1px solid rgba(37,211,102,0.3); border-radius: 8px; cursor: pointer; font-size: 0.78rem; font-weight: 600; transition: all .2s; }
+  .convo-empty .copy-link-btn:hover { background: rgba(37,211,102,0.2); }
+
+  /* Chat Panel */
+  .chat-panel { flex: 1; display: flex; flex-direction: column; }
+  .chat-header { padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+  .chat-title { display: flex; align-items: center; gap: 10px; }
+  .wa-icon { width: 36px; height: 36px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+  .chat-name { font-weight: 600; }
+  .chat-sub { font-size: 0.78rem; color: #25d366; }
+  .chat-actions { display: flex; gap: 8px; }
+  .small-btn { padding: 6px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: #aab; cursor: pointer; font-size: 0.8rem; transition: all .2s; }
+  .small-btn:hover { border-color: #25d366; color: #25d366; }
+
+  .messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+  .msg { max-width: 75%; }
+  .msg.user { align-self: flex-end; }
+  .msg.assistant { align-self: flex-start; }
+  .bubble { padding: 10px 14px; border-radius: 12px; font-size: 0.9rem; line-height: 1.5; word-break: break-word; }
+  .msg.user .bubble { background: #005c4b; border-bottom-right-radius: 2px; }
+  .msg.assistant .bubble { background: rgba(255,255,255,0.07); border-bottom-left-radius: 2px; }
+  .msg-time { font-size: 0.72rem; color: #556; margin-top: 4px; text-align: end; }
+  .needs-human { background: rgba(255,160,0,0.12); border: 1px solid rgba(255,160,0,0.3); border-radius: 10px; padding: 10px 14px; font-size: 0.85rem; color: #ffa500; text-align: center; }
+  .typing { display: none; align-self: flex-start; }
+  .typing .bubble { background: rgba(255,255,255,0.07); }
+  .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #8899aa; margin: 0 2px; animation: bounce .8s ease-in-out infinite; }
+  .dot:nth-child(2) { animation-delay: .15s; }
+  .dot:nth-child(3) { animation-delay: .3s; }
+  @keyframes bounce { 0%,80%,100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
+
+  .input-row { padding: 14px 20px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; gap: 10px; flex-shrink: 0; }
+  .msg-input { flex: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 10px 18px; color: #e8edf5; font-size: 0.92rem; font-family: inherit; direction: rtl; }
+  .msg-input:focus { outline: none; border-color: #25d366; }
+  .send-btn { width: 44px; height: 44px; border-radius: 50%; background: #25d366; border: none; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; color: #0a1628; transition: background .2s; }
+  .send-btn:hover { background: #1fb257; }
+
+  /* Conversations sidebar */
+  .convos { width: 220px; border-inline-end: 1px solid rgba(255,255,255,0.08); overflow-y: auto; flex-shrink: 0; }
+  .convos-header { padding: 12px 14px; font-size: 0.8rem; color: #8899aa; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center; }
+  .convo-item { padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background .15s; }
+  .convo-item:hover, .convo-item.active { background: rgba(255,255,255,0.05); }
+  .convo-name { font-size: 0.88rem; font-weight: 600; }
+  .convo-meta { font-size: 0.75rem; color: #667; margin-top: 3px; display: flex; gap: 6px; }
+  .badge-lead { background: rgba(37,211,102,0.15); color: #25d366; border-radius: 4px; padding: 1px 5px; }
+  .badge-human { background: rgba(255,160,0,0.15); color: #ffa500; border-radius: 4px; padding: 1px 5px; }
+
+  /* Hidden panels */
+  .panel-section { display: none; }
+  .panel-section.active { display: flex; }
+
+  /* ── DNA Tab ────────────────────────────────────── */
+  .dna-layout { flex: 1; display: flex; overflow: hidden; }
+  .dna-customers { width: 220px; border-inline-end: 1px solid rgba(255,255,255,0.08); overflow-y: auto; flex-shrink: 0; }
+  .dna-customers-hdr { padding: 12px 14px; font-size: 0.8rem; color: #8899aa; border-bottom: 1px solid rgba(255,255,255,0.06); font-weight: 600; }
+  .dna-cust-item { padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background .15s; }
+  .dna-cust-item:hover, .dna-cust-item.active { background: rgba(37,211,102,0.06); }
+  .dna-cust-name { font-size: 0.88rem; font-weight: 600; }
+  .dna-cust-meta { font-size: 0.72rem; color: #667; margin-top: 2px; }
+  .dna-card { flex: 1; padding: 24px; overflow-y: auto; }
+  .dna-card-hdr { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+  .dna-avatar { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg,#25d366,#128c7e); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; flex-shrink: 0; }
+  .dna-name { font-size: 1.1rem; font-weight: 700; }
+  .dna-sub { font-size: 0.78rem; color: #8899aa; margin-top: 2px; }
+  .dna-section { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; margin-bottom: 14px; }
+  .dna-section-title { font-size: 0.75rem; font-weight: 700; color: #8899aa; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 10px; }
+  .formula-box { background: rgba(0,0,0,0.3); border-radius: 8px; padding: 12px; font-size: 0.82rem; font-family: monospace; color: #25d366; line-height: 1.6; direction: rtl; }
+  .dna-actions { display: flex; gap: 8px; margin-top: 12px; }
+  .dna-btn { padding: 7px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.12); background: transparent; color: #aab; cursor: pointer; font-size: 0.8rem; transition: all .2s; font-family: inherit; }
+  .dna-btn:hover { border-color: #25d366; color: #25d366; }
+  .dna-btn.primary { background: #25d366; color: #0a1628; border-color: #25d366; font-weight: 600; }
+  .dna-btn.primary:hover { background: #1fb257; }
+  .visit-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.82rem; }
+  .visit-item:last-child { border: none; }
+  .visit-what { color: #e8edf5; }
+  .visit-date { font-size: 0.7rem; color: #556; white-space: nowrap; margin-inline-start: 8px; }
+  .add-visit-form { background: rgba(37,211,102,0.05); border: 1px solid rgba(37,211,102,0.2); border-radius: 12px; padding: 14px; margin-top: 14px; display: none; }
+  .add-visit-form.open { display: block; }
+  .add-visit-form textarea { margin-top: 8px; margin-bottom: 10px; min-height: 70px; }
+
+  /* ── Auction Tab ─────────────────────────────────── */
+  .auction-layout { flex: 1; padding: 24px; overflow-y: auto; }
+  .auction-stats-bar { display: flex; gap: 12px; margin-bottom: 24px; }
+  .auc-stat { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 14px 20px; flex: 1; }
+  .auc-stat-n { font-size: 1.6rem; font-weight: 800; color: #25d366; }
+  .auc-stat-l { font-size: 0.78rem; color: #8899aa; margin-top: 2px; }
+  .cancels-title { font-size: 0.88rem; font-weight: 700; color: #8899aa; margin-bottom: 14px; text-transform: uppercase; letter-spacing: .5px; }
+  .cancel-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 18px; margin-bottom: 14px; }
+  .cancel-hdr { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+  .cancel-info h4 { font-size: 0.92rem; font-weight: 600; }
+  .cancel-info p { font-size: 0.78rem; color: #8899aa; margin-top: 3px; }
+  .cancel-badge { background: rgba(255,80,80,0.12); color: #ff6060; border: 1px solid rgba(255,80,80,0.25); border-radius: 8px; padding: 4px 10px; font-size: 0.75rem; font-weight: 600; }
+  .open-auction-btn { padding: 8px 18px; background: linear-gradient(135deg,#25d366,#128c7e); color: #fff; border: none; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; font-family: inherit; transition: all .2s; }
+  .open-auction-btn:hover { opacity: .88; transform: translateY(-1px); }
+
+  /* Auction panel */
+  .auction-panel { background: rgba(37,211,102,0.05); border: 2px solid rgba(37,211,102,0.25); border-radius: 16px; padding: 20px; margin-top: 12px; display: none; }
+  .auction-panel.open { display: block; }
+  .auc-timer-row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .auc-timer { font-size: 2.2rem; font-weight: 900; color: #25d366; font-variant-numeric: tabular-nums; }
+  .auc-timer.urgent { color: #ff6060; }
+  .timer-bar-wrap { flex: 1; }
+  .timer-bar-track { height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; }
+  .timer-bar-fill { height: 100%; background: #25d366; border-radius: 3px; transition: width .9s linear; }
+  .bidder-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+  .bidder-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; font-size: 0.85rem; opacity: 0; transform: translateY(6px); transition: all .4s; }
+  .bidder-item.visible { opacity: 1; transform: translateY(0); }
+  .bidder-item.winner { border-color: #ffd700; background: rgba(255,215,0,0.08); }
+  .bidder-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg,#25d366,#128c7e); display: flex; align-items: center; justify-content: center; font-size: 0.88rem; flex-shrink: 0; }
+  .bidder-name { flex: 1; font-weight: 600; }
+  .bidder-phone { font-size: 0.72rem; color: #667; }
+  .bidder-status { font-size: 0.75rem; font-weight: 600; }
+  .wa-preview { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 12px 14px; font-size: 0.82rem; color: #e8edf5; margin-top: 10px; border-right: 3px solid #25d366; display: none; }
+  .wa-preview.show { display: block; }
+  @keyframes confetti-pop { 0%{transform:scale(0) rotate(0)} 50%{transform:scale(1.2) rotate(180deg)} 100%{transform:scale(1) rotate(360deg)} }
+  .winner-announce { text-align: center; padding: 14px; background: rgba(255,215,0,0.08); border: 1px solid rgba(255,215,0,0.25); border-radius: 12px; margin-bottom: 12px; display: none; }
+  .winner-announce.show { display: block; }
+  .winner-emoji { font-size: 2rem; animation: confetti-pop .5s ease; display: inline-block; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Whats<span>Biz</span> IL</div>
+  <div class="nav-tabs">
+    <button class="tab active" id="chatTabBtn" onclick="switchTab('chat')">💬 צ'אט חי<span class="tab-badge" id="chatBadge" style="display:none">0</span></button>
+    <button class="tab" onclick="switchTab('config')">⚙️ הגדרות</button>
+    <button class="tab" onclick="switchTab('stats')">📊 סטטיסטיקות</button>
+    <button class="tab" onclick="switchTab('dna')">💇 סגנון DNA</button>
+    <button class="tab" onclick="switchTab('auction')">🏆 מכרז תורים</button>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <span class="biz-name" id="bizNameNav">טוען...</span>
+    <span class="demo-badge" id="demoFlag" style="display:none">🎭 מצב דמו</span>
+  </div>
+</nav>
+
+<div class="main">
+
+  <!-- CHAT TAB -->
+  <div class="panel-section active" id="chatTab" style="flex:1;overflow:hidden;">
+    <!-- Conversations list -->
+    <div class="convos">
+      <div class="convos-header">
+        <span>שיחות</span>
+        <button class="small-btn" onclick="newConversation()" style="padding:3px 8px;font-size:0.75rem;">+ חדש</button>
+      </div>
+      <div id="convoList"></div>
+    </div>
+
+    <!-- Chat window -->
+    <div class="chat-panel">
+      <div class="chat-header">
+        <div class="chat-title">
+          <div class="wa-icon">💬</div>
+          <div>
+            <div class="chat-name" id="chatCustomerName">לקוח חדש</div>
+            <div class="chat-sub">WhatsApp Simulator</div>
+          </div>
+        </div>
+        <div class="chat-actions">
+          <button class="small-btn" onclick="seedMessage()">💬 הודעה לדוגמה</button>
+          <button class="small-btn" onclick="newConversation()">🔄 שיחה חדשה</button>
+          <button class="small-btn" onclick="simulateHandoff()">👤 העבר לנציג</button>
+        </div>
+      </div>
+
+      <div class="messages" id="messages">
+        <div class="msg assistant">
+          <div class="bubble">שלום! כיצד אוכל לעזור לך היום? 😊</div>
+          <div class="msg-time">עכשיו</div>
+        </div>
+      </div>
+
+      <div class="typing" id="typing">
+        <div class="bubble"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+      </div>
+
+      <div class="input-row">
+        <input class="msg-input" id="msgInput" placeholder="כתוב הודעה..." onkeydown="if(event.key==='Enter')sendMessage()">
+        <button class="send-btn" onclick="sendMessage()">➤</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONFIG TAB -->
+  <div class="panel-section" id="configTab" style="flex:1;overflow-y:auto;padding:24px;">
+    <div style="max-width:600px;margin:0 auto;">
+      <h2 style="margin-bottom:24px;">הגדרות הבוט</h2>
+
+      <div class="field">
+        <label>הודעת פתיחה</label>
+        <input id="cfgGreeting" type="text">
+      </div>
+      <div class="field">
+        <label>טון דיבור</label>
+        <select id="cfgTone">
+          <option>מקצועי</option>
+          <option>ידידותי</option>
+          <option>קצר ותכליתי</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>שפות</label>
+        <select id="cfgLangs">
+          <option value="עברית">עברית</option>
+          <option value="עברית, אנגלית">עברית + אנגלית</option>
+          <option value="עברית, ערבית">עברית + ערבית</option>
+          <option value="עברית, אנגלית, ערבית, רוסית">כל השפות</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>בסיס ידע (שאלות, מחירים, שעות...)</label>
+        <textarea id="cfgKnowledge" style="min-height:140px;"></textarea>
+      </div>
+      <div class="field">
+        <label>שעות פעילות</label>
+        <input id="cfgHours" type="text" placeholder="א'-ה' 9:00-18:00, שישי 9:00-13:00">
+      </div>
+      <div class="field">
+        <label>הודעה מחוץ לשעות</label>
+        <input id="cfgOffline" type="text">
+      </div>
+      <div class="field">
+        <label>מילת מפתח להעברת נציג</label>
+        <input id="cfgHandoff" type="text">
+      </div>
+
+      <div class="toggle-row">
+        <label>לכידת לידים אוטומטית</label>
+        <label class="toggle"><input type="checkbox" id="cfgLead" checked><span class="slider"></span></label>
+      </div>
+      <div class="toggle-row">
+        <label>זיהוי כוונת קביעת תור</label>
+        <label class="toggle"><input type="checkbox" id="cfgAppt" checked><span class="slider"></span></label>
+      </div>
+
+      <button class="save-btn" onclick="saveConfig()">💾 שמור הגדרות</button>
+
+      <div style="margin-top:20px;">
+        <label style="color:#8899aa;font-size:0.82rem;margin-bottom:6px;display:block;">תצוגה מקדימה של פרומפט המערכת</label>
+        <div class="prompt-preview" id="promptPreview">טוען...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS TAB -->
+  <div class="panel-section" id="statsTab" style="flex:1;padding:32px;overflow-y:auto;">
+    <h2 style="margin-bottom:28px;">סטטיסטיקות</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;" id="statsGrid">
+      <div class="stat-card" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px;">
+        <div style="font-size:2rem;font-weight:800;" id="statConvos">-</div>
+        <div style="color:#8899aa;font-size:0.85rem;margin-top:4px;">שיחות סה"כ</div>
+        <div class="sparkline" id="sparkConvos"></div>
+      </div>
+      <div class="stat-card" style="background:rgba(37,211,102,0.05);border:1px solid rgba(37,211,102,0.15);border-radius:14px;padding:20px;">
+        <div style="font-size:2rem;font-weight:800;color:#25d366;" id="statLeads">-</div>
+        <div style="color:#8899aa;font-size:0.85rem;margin-top:4px;">לידים</div>
+        <div class="sparkline" id="sparkLeads"></div>
+      </div>
+      <div class="stat-card" style="background:rgba(255,160,0,0.05);border:1px solid rgba(255,160,0,0.15);border-radius:14px;padding:20px;">
+        <div style="font-size:2rem;font-weight:800;color:#ffa500;" id="statHuman">-</div>
+        <div style="color:#8899aa;font-size:0.85rem;margin-top:4px;">הועבר לנציג</div>
+        <div class="sparkline" id="sparkHuman"></div>
+      </div>
+      <div class="stat-card" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px;">
+        <div style="font-size:2rem;font-weight:800;" id="statMsgs">-</div>
+        <div style="color:#8899aa;font-size:0.85rem;margin-top:4px;">הודעות סה"כ</div>
+        <div class="sparkline" id="sparkMsgs"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DNA TAB -->
+  <div class="panel-section" id="dnaTab" style="flex:1;overflow:hidden;">
+    <div class="dna-layout">
+      <div class="dna-customers">
+        <div class="dna-customers-hdr">לקוחות</div>
+        <div id="dnaCustomerList"></div>
+      </div>
+      <div class="dna-card" id="dnaCard">
+        <div style="color:#556;text-align:center;margin-top:60px;font-size:0.9rem;">בחר לקוח להצגת כרטיס הסגנון שלו</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUCTION TAB -->
+  <div class="panel-section" id="auctionTab" style="flex:1;overflow:hidden;">
+    <div class="auction-layout">
+      <div class="auction-stats-bar">
+        <div class="auc-stat"><div class="auc-stat-n">3</div><div class="auc-stat-l">ביטולים הוצלו החודש</div></div>
+        <div class="auc-stat"><div class="auc-stat-n" style="color:#ffd700">₪840</div><div class="auc-stat-l">הכנסה שנשמרה</div></div>
+        <div class="auc-stat"><div class="auc-stat-n" style="color:#aab">94%</div><div class="auc-stat-l">אחוז מילוי תורים</div></div>
+      </div>
+      <div class="cancels-title">📋 תורים שבוטלו — ממתינים למכרז</div>
+      <div id="cancelsList"></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const params = new URLSearchParams(location.search);
+let BIZ_ID = params.get('id') || localStorage.getItem('whatsbiz_business_id') || 'demo';
+let currentConvId = null;
+let messageCount = 0;
+
+const SEED_MESSAGES = [
+  'שלום, מה שעות הפתיחה שלכם?',
+  'כמה עולה תספורת?',
+  'אפשר לקבוע תור לשבוע הבא?',
+  'מה הכתובת שלכם?',
+  'האם אתם פתוחים בשישי?',
+  'יש לכם מבצעים?',
+];
+let seedIdx = 0;
+
+async function init() {
+  document.getElementById('bizNameNav').textContent =
+    localStorage.getItem('whatsbiz_business_name') || 'העסק שלי';
+
+  // Check demo mode
+  try {
+    const h = await fetch('/health');
+    const d = await h.json();
+    if (d.demo_mode) document.getElementById('demoFlag').style.display = 'block';
+  } catch {}
+
+  await loadConfig();
+  await loadConversations();
+  newConversation();
+}
+
+async function loadConfig() {
+  try {
+    const r = await fetch('/api/businesses/' + BIZ_ID + '/config');
+    if (!r.ok) return;
+    const d = await r.json();
+    document.getElementById('cfgGreeting').value = d.greeting;
+    document.getElementById('cfgTone').value = d.tone;
+    document.getElementById('cfgLangs').value = d.languages;
+    document.getElementById('cfgKnowledge').value = d.knowledge;
+    document.getElementById('cfgHours').value = d.business_hours;
+    document.getElementById('cfgOffline').value = d.offline_message;
+    document.getElementById('cfgHandoff').value = d.handoff_keyword;
+    document.getElementById('cfgLead').checked = d.lead_capture;
+    document.getElementById('cfgAppt').checked = d.appointment_detection;
+    document.getElementById('promptPreview').textContent = d.system_prompt_preview;
+  } catch {}
+}
+
+async function saveConfig() {
+  const btn = document.querySelector('.save-btn');
+  const origText = btn.textContent;
+  btn.textContent = '⏳ שומר...';
+  btn.disabled = true;
+  btn.style.opacity = '0.7';
+
+  const payload = {
+    greeting: document.getElementById('cfgGreeting').value,
+    tone: document.getElementById('cfgTone').value,
+    languages: document.getElementById('cfgLangs').value,
+    knowledge: document.getElementById('cfgKnowledge').value,
+    business_hours: document.getElementById('cfgHours').value,
+    offline_message: document.getElementById('cfgOffline').value,
+    handoff_keyword: document.getElementById('cfgHandoff').value,
+    lead_capture: document.getElementById('cfgLead').checked,
+    appointment_detection: document.getElementById('cfgAppt').checked,
+  };
+  try {
+    const r = await fetch('/api/businesses/' + BIZ_ID + '/config', {
+      method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload)
+    });
+    const d = await r.json();
+    document.getElementById('promptPreview').textContent = d.system_prompt_preview;
+    showToast('✅ ההגדרות נשמרו בהצלחה!');
+  } catch (e) {
+    showToast('❌ שגיאה בשמירה');
+  } finally {
+    btn.textContent = origText;
+    btn.disabled = false;
+    btn.style.opacity = '';
+  }
+}
+
+async function loadConversations() {
+  try {
+    const r = await fetch('/api/businesses/' + BIZ_ID + '/conversations');
+    const convos = await r.json();
+    renderConvos(convos);
+    updateStats(convos);
+  } catch {}
+}
+
+function renderConvos(convos) {
+  const el = document.getElementById('convoList');
+  if (!convos.length) {
+    el.innerHTML = `<div class="convo-empty">
+      💬 עדיין אין שיחות<br>
+      <span style="font-size:0.75rem;">שתף את קישור הבוט שלך עם לקוחות</span>
+      <div class="copy-link-btn" onclick="copyBotLink()">📋 העתק קישור</div>
+    </div>`;
+    return;
+  }
+  el.innerHTML = '';
+  convos.forEach(c => {
+    const d = document.createElement('div');
+    d.className = 'convo-item' + (c.id === currentConvId ? ' active' : '');
+    d.innerHTML = `<div class="convo-name">${c.customer_name}</div>
+      <div class="convo-meta">
+        ${c.is_lead ? '<span class="badge-lead">ליד</span>' : ''}
+        ${c.needs_human ? '<span class="badge-human">נציג</span>' : ''}
+        <span>${formatTime(c.created_at)}</span>
+      </div>`;
+    d.onclick = () => loadConversation(c.id, c.customer_name);
+    el.appendChild(d);
+  });
+}
+
+function updateStats(convos) {
+  const total = convos.length;
+  const leads = convos.filter(c => c.is_lead).length;
+  const human = convos.filter(c => c.needs_human).length;
+  const msgs = messageCount || 0;
+
+  document.getElementById('statConvos').textContent = total;
+  document.getElementById('statLeads').textContent = leads;
+  document.getElementById('statHuman').textContent = human;
+  document.getElementById('statMsgs').textContent = msgs || '-';
+
+  // Render sparklines
+  renderSparkline('sparkConvos', [2,4,3,6,5,7,total||1], '#8899aa');
+  renderSparkline('sparkLeads', [1,2,1,3,2,4,leads||1], '#25d366');
+  renderSparkline('sparkHuman', [0,1,0,2,1,1,human||1], '#ffa500');
+  renderSparkline('sparkMsgs', [5,8,6,12,9,14,msgs||1], '#8899aa');
+}
+
+function renderSparkline(id, data, color) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const max = Math.max(...data, 1);
+  el.innerHTML = data.map(v => {
+    const h = Math.max(12, Math.round((v / max) * 100));
+    return `<div class="spark-bar" style="height:${h}%;background:${color};opacity:${0.4 + (v/max)*0.6}"></div>`;
+  }).join('');
+}
+
+function copyBotLink() {
+  const link = window.location.origin + '/chat/' + BIZ_ID;
+  navigator.clipboard.writeText(link).catch(()=>{});
+  showToast('📋 הקישור הועתק ללוח!');
+}
+
+async function loadConversation(convId, name) {
+  currentConvId = convId;
+  document.getElementById('chatCustomerName').textContent = name;
+  const r = await fetch('/api/conversations/' + convId + '/messages');
+  const msgs = await r.json();
+  messageCount = msgs.length;
+  const el = document.getElementById('messages');
+  el.innerHTML = '';
+  msgs.forEach(m => addBubble(m.role === 'user' ? 'user' : 'assistant', m.content, false));
+  el.scrollTop = el.scrollHeight;
+  await loadConversations();
+}
+
+function newConversation() {
+  currentConvId = null;
+  messageCount = 0;
+  document.getElementById('chatCustomerName').textContent = 'לקוח חדש';
+  const el = document.getElementById('messages');
+  el.innerHTML = '';
+  addBubble('assistant', 'שלום! כיצד אוכל לעזור לך היום? 😊', false);
+}
+
+async function sendMessage() {
+  const input = document.getElementById('msgInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  addBubble('user', text);
+
+  // Show typing
+  const typing = document.getElementById('typing');
+  typing.style.display = 'flex';
+  const msgs = document.getElementById('messages');
+  msgs.scrollTop = msgs.scrollHeight;
+
+  try {
+    const r = await fetch('/api/chat/demo', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ business_id: BIZ_ID, conversation_id: currentConvId, message: text }),
+    });
+    const d = await r.json();
+    typing.style.display = 'none';
+    currentConvId = d.conversation_id;
+
+    if (d.needs_human) {
+      addBubble('assistant', d.reply);
+      const notice = document.createElement('div');
+      notice.className = 'needs-human';
+      notice.textContent = '⚠️ השיחה הועברה לנציג אנושי';
+      msgs.appendChild(notice);
+      msgs.scrollTop = msgs.scrollHeight;
+    } else {
+      addBubble('assistant', d.reply);
+    }
+    messageCount++;
+    await loadConversations();
+  } catch (e) {
+    typing.style.display = 'none';
+    addBubble('assistant', '⚠️ שגיאה בתקשורת עם הבוט. נסה שנית.');
+  }
+}
+
+function addBubble(role, text, scroll = true) {
+  const msgs = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = 'msg ' + role;
+  const now = new Date();
+  const t = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
+  div.innerHTML = `<div class="bubble">${escHtml(text)}</div><div class="msg-time">${t}</div>`;
+  msgs.appendChild(div);
+  if (scroll) msgs.scrollTop = msgs.scrollHeight;
+}
+
+function escHtml(t) {
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+}
+
+function seedMessage() {
+  document.getElementById('msgInput').value = SEED_MESSAGES[seedIdx % SEED_MESSAGES.length];
+  seedIdx++;
+}
+
+function simulateHandoff() {
+  const cfg = document.getElementById('cfgHandoff');
+  document.getElementById('msgInput').value = cfg ? cfg.value || 'נציג' : 'נציג';
+  sendMessage();
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.panel-section').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(tab + 'Tab').classList.add('active');
+  event.target.classList.add('active');
+  if (tab === 'stats') loadConversations();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function formatTime(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  return d.getHours() + ':' + String(d.getMinutes()).padStart(2,'0');
+}
+
+// ═══════════════════════════════════════════
+// DNA TAB
+// ═══════════════════════════════════════════
+const DNA_CUSTOMERS = [
+  {
+    id:1, name:'מיכל כהן', emoji:'👩', lastVisit:'01/07/2026',
+    formula:'צבע בסיס: 7.1 אפר + אוקסיד 20vol\nטונר: שיוף אפור 3% / 15 דקות\nהגנה: Olaplex #1 במהלך',
+    cut:'קצוב צדדים 2, עורף 1\nשיפוע כתף-אזניים, פוני צד שמאל',
+    visits:[
+      {date:'01/07/2026', what:'צביעה מלאה + תספורת + טיפול קראטין'},
+      {date:'12/05/2026', what:'גוונים (הייליטס) + תספורת'},
+      {date:'03/03/2026', what:'צביעה שורשים + פן'},
+    ]
+  },
+  {
+    id:2, name:'יוסי לוי', emoji:'👨', lastVisit:'28/06/2026',
+    formula:'שיפור קרם: קרם עיצוב #4 / 20 דקות\nצבע: N/A (שיער טבעי)',
+    cut:'גילוח מכונה 1 צדדים, 3 קדמי\nקו ישר בעורף',
+    visits:[
+      {date:'28/06/2026', what:'תספורת + זקן'},
+      {date:'15/05/2026', what:'תספורת בלבד'},
+      {date:'01/04/2026', what:'תספורת + שטיפה'},
+    ]
+  },
+  {
+    id:3, name:'שרה ברנר', emoji:'👩‍🦰', lastVisit:'25/06/2026',
+    formula:'בלונד: אבקת הבהרה + אוקסיד 30vol\nטונר: 10.1 / 10 דקות\nמסכה: Wella Fusion שבועית',
+    cut:'שכבות ארוכות, קצה V\nאין פוני',
+    visits:[
+      {date:'25/06/2026', what:'הבהרה מלאה + טיפול לחות'},
+      {date:'10/05/2026', what:'שמירה על שורשים + תספורת'},
+      {date:'20/03/2026', what:'בלונד + מסכה עמוקה'},
+    ]
+  },
+  {
+    id:4, name:'דנה אברהם', emoji:'👩‍🦱', lastVisit:'20/06/2026',
+    formula:'צבע: 4.35 שוקולד זהוב + 20vol\nזמן עיבוד: 35 דקות\nאין טונר',
+    cut:'בוב קצר, קו ישר\nצדדים שווים, קצה מעוגל',
+    visits:[
+      {date:'20/06/2026', what:'צביעה שוקולד + תספורת בוב'},
+      {date:'05/05/2026', what:'שמירה + החלקה'},
+    ]
+  },
+  {
+    id:5, name:'רון מזרחי', emoji:'🧔', lastVisit:'18/06/2026',
+    formula:'N/A — שיער טבעי',
+    cut:'פייד קצר 0.5 מתחת, 2 מעל\nעיצוב קו עם תער',
+    visits:[
+      {date:'18/06/2026', what:'תספורת + זקן מלא'},
+      {date:'01/06/2026', what:'תספורת בלבד'},
+      {date:'15/05/2026', what:'תספורת + זקן + גבות'},
+    ]
+  },
+];
+
+let activeDnaCustomer = null;
+
+function initDna() {
+  const list = document.getElementById('dnaCustomerList');
+  list.innerHTML = DNA_CUSTOMERS.map(c => `
+    <div class="dna-cust-item ${activeDnaCustomer===c.id?'active':''}" onclick="selectDnaCustomer(${c.id})">
+      <div class="dna-cust-name">${c.emoji} ${c.name}</div>
+      <div class="dna-cust-meta">ביקור אחרון: ${c.lastVisit}</div>
+    </div>`).join('');
+}
+
+function selectDnaCustomer(id) {
+  activeDnaCustomer = id;
+  const c = DNA_CUSTOMERS.find(x=>x.id===id);
+  initDna();
+  const card = document.getElementById('dnaCard');
+  card.innerHTML = `
+    <div class="dna-card-hdr">
+      <div class="dna-avatar">${c.emoji}</div>
+      <div>
+        <div class="dna-name">${c.name}</div>
+        <div class="dna-sub">ביקור אחרון: ${c.lastVisit} · ${c.visits.length} ביקורים</div>
+      </div>
+    </div>
+
+    <div class="dna-section">
+      <div class="dna-section-title">🎨 פורמולת צבע</div>
+      <div class="formula-box">${c.formula.replace(/\n/g,'<br>')}</div>
+      <div class="dna-actions">
+        <button class="dna-btn" onclick="copyFormula(${c.id})">📋 העתק פורמולה</button>
+        <button class="dna-btn primary" onclick="sendFormula('${c.name}')">📲 שלח ללקוח</button>
+      </div>
+    </div>
+
+    <div class="dna-section">
+      <div class="dna-section-title">✂️ פרטי תספורת</div>
+      <div class="formula-box">${c.cut.replace(/\n/g,'<br>')}</div>
+    </div>
+
+    <div class="dna-section">
+      <div class="dna-section-title">📅 היסטוריית ביקורים</div>
+      ${c.visits.map(v=>`
+        <div class="visit-item">
+          <div class="visit-what">${v.what}</div>
+          <div class="visit-date">${v.date}</div>
+        </div>`).join('')}
+    </div>
+
+    <button class="open-auction-btn" style="width:100%;margin-bottom:12px" onclick="toggleAddVisit()">+ הוסף ביקור חדש</button>
+    <div class="add-visit-form" id="addVisitForm">
+      <div style="font-size:0.82rem;font-weight:600;margin-bottom:6px">תיעוד ביקור — ${c.name}</div>
+      <textarea id="visitNotes" placeholder="מה עשינו? צבע, תספורת, טיפולים..."></textarea>
+      <div style="display:flex;gap:8px">
+        <button class="dna-btn primary" onclick="saveVisit(${c.id})">💾 שמור ביקור</button>
+        <button class="dna-btn" onclick="toggleAddVisit()">ביטול</button>
+      </div>
+    </div>`;
+}
+
+function copyFormula(id) {
+  const c = DNA_CUSTOMERS.find(x=>x.id===id);
+  navigator.clipboard.writeText(c.formula).catch(()=>{});
+  showToast('📋 הפורמולה הועתקה ללוח!');
+}
+
+function sendFormula(name) {
+  showToast('📲 הפורמולה נשלחה ב-WhatsApp ל'+name+'!');
+}
+
+function toggleAddVisit() {
+  document.getElementById('addVisitForm').classList.toggle('open');
+}
+
+function saveVisit(id) {
+  const notes = document.getElementById('visitNotes').value.trim();
+  if (!notes) { showToast('⚠️ יש למלא פרטי ביקור'); return; }
+  const c = DNA_CUSTOMERS.find(x=>x.id===id);
+  const today = new Date();
+  const d = [today.getDate().toString().padStart(2,'0'),(today.getMonth()+1).toString().padStart(2,'0'),today.getFullYear()].join('/');
+  c.visits.unshift({date:d, what:notes});
+  c.lastVisit = d;
+  selectDnaCustomer(id);
+  showToast('✅ הביקור נשמר בכרטיס הסגנון!');
+}
+
+// ═══════════════════════════════════════════
+// AUCTION TAB
+// ═══════════════════════════════════════════
+const CANCELS = [
+  {id:'a1', time:'ב׳, 09/07 בשעה 10:00', who:'לירון כ.', service:'צביעה מלאה (90 דק\')', price:'₪320'},
+  {id:'a2', time:'ג׳, 10/07 בשעה 14:30', who:'תמר ש.', service:'תספורת + פן (60 דק\')', price:'₪180'},
+  {id:'a3', time:'ד׳, 11/07 בשעה 11:00', who:'מוטי ר.', service:'גוונים (120 דק\')', price:'₪420'},
+];
+
+const WAITLIST = [
+  [{name:'נועה ב.',phone:'05•••••782',emoji:'👩'},{name:'אסף ג.',phone:'05•••••341',emoji:'🧑'},{name:'רינה מ.',phone:'05•••••566',emoji:'👩‍🦳'}],
+  [{name:'דרור פ.',phone:'05•••••129',emoji:'🧔'},{name:'עדי ל.',phone:'05•••••874',emoji:'👩'},{name:'יואב כ.',phone:'05•••••213',emoji:'🧑'}],
+  [{name:'שני ה.',phone:'05•••••630',emoji:'👩‍🦱'},{name:'ברק נ.',phone:'05•••••498',emoji:'🧑'},{name:'לי ו.',phone:'05•••••712',emoji:'👩'}],
+];
+
+let activeAuctions = {};
+
+function initCancels() {
+  document.getElementById('cancelsList').innerHTML = CANCELS.map((c,ci)=>`
+    <div class="cancel-card" id="cancelCard_${c.id}">
+      <div class="cancel-hdr">
+        <div class="cancel-info">
+          <h4>✂️ ${c.service}</h4>
+          <p>📅 ${c.time} · בוטל ע"י ${c.who} · ${c.price}</p>
+        </div>
+        <span class="cancel-badge">בוטל</span>
+      </div>
+      <button class="open-auction-btn" id="auctionOpenBtn_${c.id}" onclick="startAuction('${c.id}',${ci})">🏆 פתח מכרז</button>
+      <div class="auction-panel" id="auctionPanel_${c.id}">
+        <div class="auc-timer-row">
+          <div class="auc-timer" id="auctionTimer_${c.id}">60</div>
+          <div class="timer-bar-wrap">
+            <div style="font-size:0.72rem;color:#8899aa;margin-bottom:4px">זמן נותר</div>
+            <div class="timer-bar-track"><div class="timer-bar-fill" id="timerBar_${c.id}" style="width:100%"></div></div>
+          </div>
+        </div>
+        <div class="bidder-list" id="bidderList_${c.id}">
+          ${WAITLIST[ci].map((b,bi)=>`
+            <div class="bidder-item" id="bidder_${c.id}_${bi}">
+              <div class="bidder-avatar">${b.emoji}</div>
+              <div>
+                <div class="bidder-name">${b.name}</div>
+                <div class="bidder-phone">${b.phone}</div>
+              </div>
+              <div class="bidder-status" id="bidderStatus_${c.id}_${bi}" style="color:#556">ממתין...</div>
+            </div>`).join('')}
+        </div>
+        <div class="winner-announce" id="winnerAnnounce_${c.id}">
+          <div class="winner-emoji">🎉</div>
+          <div style="font-size:1rem;font-weight:700;margin-top:6px" id="winnerName_${c.id}">—</div>
+          <div style="font-size:0.78rem;color:#8899aa;margin-top:3px">זכה בתור!</div>
+        </div>
+        <div class="wa-preview" id="waPreview_${c.id}"></div>
+      </div>
+    </div>`).join('');
+}
+
+function startAuction(cid, ci) {
+  if (activeAuctions[cid]) return;
+  document.getElementById('auctionOpenBtn_'+cid).style.display='none';
+  const panel = document.getElementById('auctionPanel_'+cid);
+  panel.classList.add('open');
+
+  const cancel = CANCELS[ci];
+  const waitlist = WAITLIST[ci];
+  let secs = 60;
+  activeAuctions[cid] = true;
+
+  const timerEl = document.getElementById('auctionTimer_'+cid);
+  const barEl = document.getElementById('timerBar_'+cid);
+
+  // Bidders join at staggered times
+  const joinTimes = [48, 32, 18];
+  const joinedSet = new Set();
+
+  const iv = setInterval(()=>{
+    secs--;
+    timerEl.textContent = secs;
+    barEl.style.width = (secs/60*100)+'%';
+    if (secs <= 15) {
+      timerEl.classList.add('urgent');
+      barEl.style.background = '#ff6060';
+    }
+
+    joinTimes.forEach((t,bi)=>{
+      if (secs <= t && !joinedSet.has(bi)) {
+        joinedSet.add(bi);
+        const el = document.getElementById(`bidder_${cid}_${bi}`);
+        el.classList.add('visible');
+        document.getElementById(`bidderStatus_${cid}_${bi}`).textContent = '✋ מעוניין';
+        document.getElementById(`bidderStatus_${cid}_${bi}`).style.color = '#25d366';
+      }
+    });
+
+    if (secs <= 0) {
+      clearInterval(iv);
+      endAuction(cid, ci, waitlist);
+    }
+  }, 1000);
+}
+
+function endAuction(cid, ci, waitlist) {
+  const winner = waitlist[0];
+  const cancel = CANCELS[ci];
+
+  // Mark winner
+  const winnerEl = document.getElementById(`bidder_${cid}_0`);
+  winnerEl.classList.add('winner');
+  document.getElementById(`bidderStatus_${cid}_0`).textContent = '🏆 זכה!';
+  document.getElementById(`bidderStatus_${cid}_0`).style.color = '#ffd700';
+
+  // Winner announce
+  document.getElementById('winnerName_'+cid).textContent = winner.name;
+  document.getElementById('winnerAnnounce_'+cid).classList.add('show');
+
+  // WhatsApp preview
+  const wa = document.getElementById('waPreview_'+cid);
+  wa.innerHTML = `<strong>💬 הודעת WhatsApp נשלחה ל-${winner.name}:</strong><br><br>
+    שלום ${winner.name}! 🎉<br>
+    נפתח לך תור ב-${cancel.time}<br>
+    לשירות: ${cancel.service} (${cancel.price})<br><br>
+    לאישור התור השב <strong>כן</strong> בתוך 10 דקות.`;
+  wa.classList.add('show');
+
+  showToast('🏆 '+winner.name+' זכה בתור! WhatsApp נשלח.');
+}
+
+// ═══════════════════════════════════════════
+// Override switchTab to init new tabs
+// ═══════════════════════════════════════════
+const _origSwitchTab = switchTab;
+switchTab = function(tab) {
+  document.querySelectorAll('.panel-section').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  const el = document.getElementById(tab + 'Tab');
+  if (el) el.classList.add('active');
+  event.target.classList.add('active');
+  if (tab === 'stats') loadConversations();
+  if (tab === 'dna') initDna();
+  if (tab === 'auction') initCancels();
+};
+
+init();
+
+// ── Notification badge simulation ──
+let badgeCount = 0;
+let badgeActive = true;
+setInterval(() => {
+  if (!badgeActive) return;
+  badgeCount = Math.floor(Math.random() * 4) + 1;
+  const badge = document.getElementById('chatBadge');
+  if (badge) {
+    badge.textContent = badgeCount;
+    badge.style.display = 'inline-flex';
+    // Re-trigger animation
+    badge.style.animation = 'none';
+    badge.offsetHeight;
+    badge.style.animation = 'badgePop .3s ease';
+  }
+}, 8000);
+
+// Clear badge when switching to chat tab
+const _origSwitchForBadge = switchTab;
+switchTab = function(tab) {
+  _origSwitchForBadge.call(this, tab);
+  if (tab === 'chat') {
+    badgeCount = 0;
+    const badge = document.getElementById('chatBadge');
+    if (badge) badge.style.display = 'none';
+    badgeActive = false;
+    setTimeout(() => { badgeActive = true; }, 3000);
+  }
+};
+</script>
+</body>
+</html>
