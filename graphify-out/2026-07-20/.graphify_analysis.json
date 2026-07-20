@@ -1,0 +1,474 @@
+{
+  "communities": {
+    "0": [
+      "booking_intent",
+      "github_workflows_factory_ci",
+      "index",
+      "index_run",
+      "language_detection",
+      "lib_detectlanguage",
+      "lib_detectlanguage_detectlanguage",
+      "lib_detectlanguage_test",
+      "lib_detectlanguage_test_assert",
+      "lib_detectlanguage_test_detectlanguage",
+      "lib_generatehybridreply",
+      "lib_generatehybridreply_generatehybridreply",
+      "lib_generatehybridreply_test",
+      "lib_generatehybridreply_test_assert",
+      "lib_generatehybridreply_test_generatehybridreply",
+      "lib_parsebookingrequest",
+      "lib_parsebookingrequest_parsebookingrequest",
+      "lib_parsebookingrequest_test",
+      "lib_parsebookingrequest_test_assert",
+      "lib_parsebookingrequest_test_parsebookingrequest",
+      "lib_parsebookingrequest_test_pastdate",
+      "lib_parsebookingrequest_test_pastday",
+      "lib_parsebookingrequest_test_result1",
+      "lib_parsebookingrequest_test_result2",
+      "lib_parsebookingrequest_test_result3",
+      "lib_parsebookingrequest_test_result4",
+      "lib_parsebookingrequest_test_result5",
+      "lib_parsebookingrequest_test_result6",
+      "lib_parsebookingrequest_test_result7",
+      "lib_parsebookingrequest_test_result8",
+      "lib_readme"
+    ],
+    "1": [
+      "app_config",
+      "app_db",
+      "app_db_base",
+      "app_db_get_db",
+      "app_db_py_asyncsession",
+      "app_models",
+      "app_models_botconfig",
+      "app_models_business",
+      "app_models_conversation",
+      "app_models_gen_id",
+      "app_models_message",
+      "app_routers_chat",
+      "app_routers_chat_chat",
+      "app_routers_chat_delete_conversation",
+      "app_routers_chat_list_conversations",
+      "app_routers_chat_list_messages",
+      "app_routers_chat_py_asyncsession",
+      "app_routers_config",
+      "app_routers_onboarding",
+      "app_routers_onboarding_create_business",
+      "app_routers_onboarding_py_asyncsession",
+      "app_services_bot_prompt",
+      "app_services_bot_prompt_build_system_prompt",
+      "app_services_bot_prompt_preview_prompt",
+      "app_services_claude",
+      "app_services_claude_get_claude_reply",
+      "declarativebase",
+      "fastapi"
+    ],
+    "2": [
+      "app_routers_config_get_business_and_config",
+      "app_routers_config_get_config",
+      "app_routers_config_py_asyncsession",
+      "app_routers_config_update_config",
+      "app_schemas",
+      "app_schemas_botconfigresponse",
+      "app_schemas_botconfigupdate",
+      "app_schemas_chatrequest",
+      "app_schemas_chatresponse",
+      "app_schemas_conversationout",
+      "app_schemas_messageout",
+      "app_schemas_onboardingrequest",
+      "app_schemas_onboardingresponse",
+      "basemodel"
+    ],
+    "3": [
+      "requirements",
+      "requirements_aiosqlite",
+      "requirements_anthropic",
+      "requirements_fastapi",
+      "requirements_pydantic",
+      "requirements_python_dotenv",
+      "requirements_python_multipart",
+      "requirements_sqlalchemy",
+      "requirements_uvicorn",
+      "whatsapp_bot",
+      "whatsbiz_project"
+    ],
+    "4": [
+      "lib_schedulereminders",
+      "lib_schedulereminders_schedulereminders",
+      "lib_schedulereminders_test",
+      "lib_schedulereminders_test_assert",
+      "lib_schedulereminders_test_now",
+      "lib_schedulereminders_test_r",
+      "lib_schedulereminders_test_schedulereminders",
+      "lib_schedulereminders_test_start",
+      "reminder_scheduling"
+    ],
+    "5": [
+      "app_db_init_db",
+      "app_main",
+      "app_main_dashboard_page",
+      "app_main_health",
+      "app_main_lifespan",
+      "app_main_onboarding_page",
+      "app_main_root"
+    ],
+    "6": [
+      "lib_assistbsponboarding",
+      "lib_assistbsponboarding_assistbsponboarding",
+      "lib_assistbsponboarding_registerednames",
+      "lib_assistbsponboarding_test",
+      "lib_assistbsponboarding_test_assert",
+      "lib_assistbsponboarding_test_assistbsponboarding",
+      "lib_assistbsponboarding_test_result"
+    ],
+    "7": [
+      "api_onboarding",
+      "templates_onboarding",
+      "templates_onboarding_goDashboard",
+      "templates_onboarding_goTo",
+      "templates_onboarding_process",
+      "templates_onboarding_submitOnboarding"
+    ],
+    "8": [
+      "lib_isbusinessopen",
+      "lib_isbusinessopen_isbusinessopen",
+      "lib_isbusinessopen_test",
+      "lib_isbusinessopen_test_assert",
+      "lib_isbusinessopen_test_isbusinessopen"
+    ],
+    "9": [
+      "lib_maskphone",
+      "lib_maskphone_maskphone",
+      "lib_maskphone_test",
+      "lib_maskphone_test_a",
+      "lib_maskphone_test_maskphone"
+    ],
+    "10": [
+      "lib_requesthumanhandoff",
+      "lib_requesthumanhandoff_handoffqueue",
+      "lib_requesthumanhandoff_randomuuid",
+      "lib_requesthumanhandoff_recentrequests",
+      "lib_requesthumanhandoff_requesthumanhandoff"
+    ],
+    "11": [
+      "lib_templatefill",
+      "lib_templatefill_templatefill",
+      "lib_templatefill_test",
+      "lib_templatefill_test_assert",
+      "lib_templatefill_test_templatefill"
+    ],
+    "12": [
+      "auction_system",
+      "customer_management",
+      "dna_style",
+      "templates_dashboard"
+    ],
+    "13": [
+      "lib_runconversationsimulator",
+      "lib_runconversationsimulator_process",
+      "lib_runconversationsimulator_readline",
+      "lib_runconversationsimulator_runconversationsimulator"
+    ],
+    "14": [
+      "lib_generatereferralcode",
+      "lib_generatereferralcode_generatereferralcode",
+      "lib_generatereferralcode_randombytes"
+    ],
+    "15": [
+      "lib_getrotatedresponse",
+      "lib_getrotatedresponse_getrotatedresponse",
+      "lib_getrotatedresponse_responsecounters"
+    ],
+    "16": [
+      "lib_analyzeescalationneed",
+      "lib_analyzeescalationneed_analyzeescalationneed"
+    ],
+    "17": [
+      "lib_autoonboardbsp",
+      "lib_autoonboardbsp_autoonboardbsp"
+    ],
+    "18": [
+      "lib_cansendmessage",
+      "lib_cansendmessage_cansendmessage"
+    ],
+    "19": [
+      "lib_checkbusinesshoursandrespond",
+      "lib_checkbusinesshoursandrespond_checkbusinesshoursandrespond"
+    ],
+    "20": [
+      "lib_checkhebrewresponseconfidence",
+      "lib_checkhebrewresponseconfidence_checkhebrewresponseconfidence"
+    ],
+    "21": [
+      "lib_containsmedicaladvicequery",
+      "lib_containsmedicaladvicequery_containsmedicaladvicequery"
+    ],
+    "22": [
+      "lib_detectfrustrationandescalate",
+      "lib_detectfrustrationandescalate_detectfrustrationandescalate"
+    ],
+    "23": [
+      "lib_diversifyhebrewreply",
+      "lib_diversifyhebrewreply_diversifyhebrewreply"
+    ],
+    "24": [
+      "lib_escalatetohuman",
+      "lib_escalatetohuman_escalatetohuman"
+    ],
+    "25": [
+      "lib_extracttrainingdatafromsource",
+      "lib_extracttrainingdatafromsource_extracttrainingdatafromsource"
+    ],
+    "26": [
+      "lib_fuzzyhebrewmatcher",
+      "lib_fuzzyhebrewmatcher_fuzzyhebrewmatcher"
+    ],
+    "27": [
+      "lib_generatebookingfollowup",
+      "lib_generatebookingfollowup_generatebookingfollowup"
+    ],
+    "28": [
+      "lib_generateclinicalautoreplytemplates",
+      "lib_generateclinicalautoreplytemplates_generateclinicalautoreplytemplates"
+    ],
+    "29": [
+      "lib_generateclinicfaqtemplate",
+      "lib_generateclinicfaqtemplate_generateclinicfaqtemplate"
+    ],
+    "30": [
+      "lib_generateclinictemplate",
+      "lib_generateclinictemplate_generateclinictemplate"
+    ],
+    "31": [
+      "lib_generatecontextualreply",
+      "lib_generatecontextualreply_generatecontextualreply"
+    ],
+    "32": [
+      "lib_generateupsellsuggestion",
+      "lib_generateupsellsuggestion_generateupsellsuggestion"
+    ],
+    "33": [
+      "lib_getcontextualreply",
+      "lib_getcontextualreply_getcontextualreply"
+    ],
+    "34": [
+      "lib_getpersonalizedreply",
+      "lib_getpersonalizedreply_getpersonalizedreply"
+    ],
+    "35": [
+      "lib_maskhebrewpii",
+      "lib_maskhebrewpii_maskhebrewpii"
+    ],
+    "36": [
+      "lib_matchclinicfaq",
+      "lib_matchclinicfaq_matchclinicfaq"
+    ],
+    "37": [
+      "lib_parseclinichours",
+      "lib_parseclinichours_parseclinichours"
+    ],
+    "38": [
+      "lib_processnoshowandbalancereminder",
+      "lib_processnoshowandbalancereminder_processnoshowandbalancereminder"
+    ],
+    "39": [
+      "lib_redactpersonaldata",
+      "lib_redactpersonaldata_redactpersonaldata"
+    ],
+    "40": [
+      "lib_suggestagentreplies",
+      "lib_suggestagentreplies_suggestagentreplies"
+    ],
+    "41": [
+      "lib_suggestoptimalappointmentslots",
+      "lib_suggestoptimalappointmentslots_suggestoptimalappointmentslots"
+    ],
+    "42": [
+      "lib_validatebookingconsent",
+      "lib_validatebookingconsent_validatebookingconsent"
+    ],
+    "43": [
+      "lib_verifywhatsappsignature",
+      "lib_verifywhatsappsignature_verifywhatsappsignature"
+    ],
+    "44": [
+      "app_init"
+    ],
+    "45": [
+      "app_routers_init"
+    ],
+    "46": [
+      "app_services_init"
+    ],
+    "47": [
+      "readme"
+    ],
+    "48": [
+      "templates_index"
+    ]
+  },
+  "cohesion": {
+    "0": 0.07741935483870968,
+    "1": 0.20105820105820105,
+    "2": 0.26373626373626374,
+    "3": 0.3090909090909091,
+    "4": 0.25,
+    "5": 0.3333333333333333,
+    "6": 0.3333333333333333,
+    "7": 0.3333333333333333,
+    "8": 0.5,
+    "9": 0.5,
+    "10": 0.4,
+    "11": 0.5,
+    "12": 0.5,
+    "13": 0.5,
+    "14": 0.6666666666666666,
+    "15": 0.6666666666666666,
+    "16": 1.0,
+    "17": 1.0,
+    "18": 1.0,
+    "19": 1.0,
+    "20": 1.0,
+    "21": 1.0,
+    "22": 1.0,
+    "23": 1.0,
+    "24": 1.0,
+    "25": 1.0,
+    "26": 1.0,
+    "27": 1.0,
+    "28": 1.0,
+    "29": 1.0,
+    "30": 1.0,
+    "31": 1.0,
+    "32": 1.0,
+    "33": 1.0,
+    "34": 1.0,
+    "35": 1.0,
+    "36": 1.0,
+    "37": 1.0,
+    "38": 1.0,
+    "39": 1.0,
+    "40": 1.0,
+    "41": 1.0,
+    "42": 1.0,
+    "43": 1.0,
+    "44": 1.0,
+    "45": 1.0,
+    "46": 1.0,
+    "47": 1.0,
+    "48": 1.0
+  },
+  "gods": [
+    {
+      "id": "app_models_business",
+      "label": "Business",
+      "degree": 11
+    },
+    {
+      "id": "app_models_botconfig",
+      "label": "BotConfig",
+      "degree": 11
+    },
+    {
+      "id": "app_routers_chat_chat",
+      "label": "chat()",
+      "degree": 10
+    },
+    {
+      "id": "whatsbiz_project",
+      "label": "WhatsBiz Project",
+      "degree": 9
+    },
+    {
+      "id": "app_db_base",
+      "label": "Base",
+      "degree": 7
+    },
+    {
+      "id": "app_services_bot_prompt_preview_prompt",
+      "label": "preview_prompt()",
+      "degree": 7
+    },
+    {
+      "id": "app_models_conversation",
+      "label": "Conversation",
+      "degree": 6
+    },
+    {
+      "id": "app_models_message",
+      "label": "Message",
+      "degree": 6
+    },
+    {
+      "id": "app_routers_config_get_business_and_config",
+      "label": "_get_business_and_config()",
+      "degree": 6
+    },
+    {
+      "id": "app_routers_config_update_config",
+      "label": "update_config()",
+      "degree": 6
+    }
+  ],
+  "surprises": [
+    {
+      "source": "FastAPI",
+      "target": "WhatsBiz Project",
+      "source_files": [
+        "requirements.txt",
+        "README.md"
+      ],
+      "confidence": "INFERRED",
+      "relation": "references",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; peripheral node `FastAPI` unexpectedly reaches hub `WhatsBiz Project`"
+    },
+    {
+      "source": "Uvicorn",
+      "target": "WhatsBiz Project",
+      "source_files": [
+        "requirements.txt",
+        "README.md"
+      ],
+      "confidence": "INFERRED",
+      "relation": "references",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; peripheral node `Uvicorn` unexpectedly reaches hub `WhatsBiz Project`"
+    },
+    {
+      "source": "Pydantic",
+      "target": "WhatsBiz Project",
+      "source_files": [
+        "requirements.txt",
+        "README.md"
+      ],
+      "confidence": "INFERRED",
+      "relation": "references",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; peripheral node `Pydantic` unexpectedly reaches hub `WhatsBiz Project`"
+    },
+    {
+      "source": "SQLAlchemy",
+      "target": "WhatsBiz Project",
+      "source_files": [
+        "requirements.txt",
+        "README.md"
+      ],
+      "confidence": "INFERRED",
+      "relation": "references",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; peripheral node `SQLAlchemy` unexpectedly reaches hub `WhatsBiz Project`"
+    },
+    {
+      "source": "aiosqlite",
+      "target": "WhatsBiz Project",
+      "source_files": [
+        "requirements.txt",
+        "README.md"
+      ],
+      "confidence": "INFERRED",
+      "relation": "references",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; peripheral node `aiosqlite` unexpectedly reaches hub `WhatsBiz Project`"
+    }
+  ],
+  "tokens": {
+    "input": 23189,
+    "output": 13663
+  }
+}
