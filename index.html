@@ -1,6 +1,217 @@
 <!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>WhatsBiz | עוזר קביעת תורים</title><style>
 :root{--green:#19a766;--deep:#073c2c;--pale:#effaf4;--line:#d4e9dd;--muted:#60736a}*{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,#e7f8ef,#f9fcfa 55%);font-family:Arial,sans-serif;color:var(--deep);min-height:100vh}.wrap{max-width:920px;margin:auto;padding:42px 20px}header{text-align:center;margin-bottom:26px}header span{color:var(--green);font-weight:bold}h1{font-size:clamp(2.2rem,6vw,4rem);margin:8px}.phone{max-width:720px;margin:auto;background:white;border:1px solid var(--line);border-radius:25px;overflow:hidden;box-shadow:0 20px 55px #125a3520}.bar{padding:17px 22px;background:var(--deep);color:#fff;display:flex;justify-content:space-between}.chat{padding:24px;min-height:270px;background:var(--pale)}.bubble{max-width:82%;padding:13px 15px;margin:9px 0;border-radius:15px;line-height:1.5}.customer{background:white;margin-right:auto}.bot{background:#d4f4e2}.meta{font-size:.75rem;color:var(--muted);margin-top:4px}.controls{padding:20px;background:white;border-top:1px solid var(--line)}label{font-size:.82rem;color:var(--muted)}textarea{width:100%;resize:vertical;min-height:72px;margin:7px 0;padding:12px;border:1px solid var(--line);border-radius:12px;font:inherit}button{background:var(--green);color:white;border:0;padding:12px 18px;border-radius:10px;font-weight:bold;cursor:pointer}.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.chip{padding:7px 9px;border-radius:99px;background:#eff6f2;font-size:.78rem}.error{color:#a22}
 </style></head><body><main class="wrap"><header><span>WHATS<span dir="ltr">BIZ</span> / SMART INBOX</span><h1>מתעניינים הופכים לתורים.</h1><p>פענוח הודעת לקוח, ניסוח תשובה ותזמון תזכורות — במקום אחד.</p></header><section class="phone"><div class="bar"><b>מרפאת חיוך</b><span>● מחובר</span></div><div class="chat" id="chat"></div><form class="controls" id="form"><label>הודעת לקוח</label><textarea id="message">היי, שמי דנה ואני רוצה לקבוע תור לטיפול מחר בשעה 16:30</textarea><button>נתח ושלח תשובה</button></form></section></main><script>
-/*__LIB_BUNDLE__*/
+const __modules={"lib/parseBookingRequest.js":function(require,module,exports){
+function parseBookingRequest(message) {
+  if (!message || typeof message !== 'string') return null;
+  const lower = message.toLowerCase();
+  const bookingKeywords = ['תור', 'לקבוע', 'להזמין', 'קבע', 'הזמן'];
+  const hasBookingIntent = bookingKeywords.some(kw => lower.includes(kw));
+  if (!hasBookingIntent) return null;
+
+  const services = ['טיפול', 'ניקוי', 'בדיקה', 'השתלה'];
+  let service = null;
+  for (const s of services) {
+    const regex = new RegExp(`תור ל${s}`, 'i');
+    if (regex.test(message)) {
+      service = s;
+      break;
+    }
+  }
+
+  const monthMap = {
+    'ינואר': '01', 'פברואר': '02', 'מרץ': '03', 'אפריל': '04',
+    'מאי': '05', 'יוני': '06', 'יולי': '07', 'אוגוסט': '08',
+    'ספטמבר': '09', 'אוקטובר': '10', 'נובמבר': '11', 'דצמבר': '12'
+  };
+  let date = null;
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+  const nextWeek = new Date(today);
+  nextWeek.setDate(today.getDate() + 7);
+
+  if (/מחר/i.test(message)) {
+    date = tomorrow.toISOString().slice(0, 10);
+  } else if (/בשבוע הבא/i.test(message)) {
+    date = nextWeek.toISOString().slice(0, 10);
+  } else {
+    const dayMonthRegex = /ב(\d{1,2})\s*(ינואר|פברואר|מרץ|אפריל|מאי|יוני|יולי|אוגוסט|ספטמבר|אוקטובר|נובמבר|דצמבר)/i;
+    const match = message.match(dayMonthRegex);
+    if (match) {
+      const day = parseInt(match[1], 10);
+      const month = monthMap[match[2]];
+      if (day >= 1 && day <= 31 && month) {
+        const year = today.getFullYear();
+        const parsedDate = new Date(`${year}-${month}-${day}`);
+        if (parsedDate < today) {
+          parsedDate.setFullYear(year + 1);
+        }
+        date = parsedDate.toISOString().slice(0, 10);
+      }
+    }
+  }
+
+  let time = null;
+  const timeRegex = /בשעה\s*(\d{1,2}:\d{2})/i;
+  const timeMatch = message.match(timeRegex);
+  if (timeMatch) {
+    const [hours, minutes] = timeMatch[1].split(':').map(Number);
+    if (hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59) {
+      time = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+    }
+  }
+
+  let patientName = null;
+  const nameRegex = /שמי\s+([א-ת\s]+)/i;
+  const nameMatch = message.match(nameRegex);
+  if (nameMatch) {
+    const name = nameMatch[1].trim();
+    if (name.length > 0) patientName = name;
+  }
+
+  let confidence = 0;
+  if (service) confidence += 0.33;
+  if (date) confidence += 0.33;
+  if (time) confidence += 0.33;
+  if (patientName) confidence = Math.min(confidence + 0.1, 1);
+
+  return {
+    service,
+    date,
+    time,
+    patientName,
+    confidence: Math.round(confidence * 100) / 100
+  };
+}
+
+module.exports = { parseBookingRequest };
+},
+"lib/generateHybridReply.js":function(require,module,exports){
+function generateHybridReply(context, userMessage) {
+  const blacklist = ['זין', 'בן זונה', 'כוס', 'לך תמות', 'מפגר', 'שמוק', 'חרא', 'טמבל'];
+  const bookingKeywords = ['קבוע', 'תור', 'קבע'];
+  const pricingKeywords = ['מחיר', 'עולה', 'כמה'];
+  const locationKeywords = ['כתובת', 'איפה'];
+
+  if (!userMessage || userMessage.trim() === '') {
+    return 'סליחה, לא הצלחתי להבין. אפנה אותך לנציג תוך 5 דקות.';
+  }
+
+  const lowerMessage = userMessage.toLowerCase();
+  for (const word of blacklist) {
+    if (lowerMessage.includes(word)) {
+      return 'אנא שמור על שפה מכבדת. אפנה אותך לנציג תוך 5 דקות.';
+    }
+  }
+
+  const customerName = context.customerName || 'לך';
+  const clinicName = context.clinicName || 'המרפאה';
+
+  let intent = 'other';
+  for (const keyword of bookingKeywords) {
+    if (lowerMessage.includes(keyword)) {
+      intent = 'booking';
+      break;
+    }
+  }
+  if (intent === 'other') {
+    for (const keyword of pricingKeywords) {
+      if (lowerMessage.includes(keyword)) {
+        intent = 'pricing';
+        break;
+      }
+    }
+  }
+  if (intent === 'other') {
+    for (const keyword of locationKeywords) {
+      if (lowerMessage.includes(keyword)) {
+        intent = 'location';
+        break;
+      }
+    }
+  }
+
+  if (intent === 'booking') {
+    return `שלום ${customerName}, תודה שפנית אל ${clinicName}. אשמח לקבוע לך תור. מתי נוח לך?`;
+  } else if (intent === 'pricing') {
+    return `שלום ${customerName}, תודה שפנית אל ${clinicName}. המחירים משתנים לפי סוג הטיפול. אשמח לפרט לך במייל או בטלפון.`;
+  } else if (intent === 'location') {
+    return `שלום ${customerName}, הכתובת של ${clinicName} היא: רחוב הראשי 1, תל אביב. נשמח לראותך!`;
+  } else {
+    return `סליחה, לא הצלחתי להבין. אפנה אותך לנציג תוך 5 דקות.`;
+  }
+}
+
+module.exports = { generateHybridReply };
+},
+"lib/scheduleReminders.js":function(require,module,exports){
+'use strict';
+
+// WhatsBiz — scheduleReminders
+// No-show reminders: given a confirmed booking start time, compute the
+// reminder send-times (default 24h + 2h before — the pattern shown across
+// 2026 market data to cut no-shows 40-60%). Skips any reminder whose
+// send-time already passed relative to `now` (can't send into the past).
+// Pure/deterministic: inject `now` for tests. No Math.random.
+// Returns [{ hoursBefore, sendAt: ISO }] sorted ascending by sendAt.
+// ponytail: fixed offsets + past-skip only. Quiet-hours shifting (don't
+// fire a reminder at 03:00) is the upgrade path if SMBs complain about
+// timing — pair with isBusinessOpen; not built until the need is real.
+
+function scheduleReminders(bookingStart, opts) {
+  const start = bookingStart instanceof Date ? bookingStart : new Date(bookingStart);
+  if (isNaN(start.getTime())) return [];
+
+  const o = opts && typeof opts === 'object' ? opts : {};
+  const now = o.now instanceof Date ? o.now
+    : (o.now != null ? new Date(o.now) : new Date());
+  if (isNaN(now.getTime())) return [];
+
+  const offsets = Array.isArray(o.hoursBefore) && o.hoursBefore.length
+    ? o.hoursBefore
+    : [24, 2];
+
+  const reminders = [];
+  for (const h of offsets) {
+    const hours = Number(h);
+    if (!isFinite(hours) || hours <= 0) continue;
+    const sendAt = new Date(start.getTime() - hours * 3600 * 1000);
+    if (sendAt.getTime() <= now.getTime()) continue;   // past — can't send
+    if (sendAt.getTime() >= start.getTime()) continue; // guard against bad offset
+    reminders.push({ hoursBefore: hours, sendAt: sendAt.toISOString() });
+  }
+
+  reminders.sort((a, b) => (a.sendAt < b.sendAt ? -1 : a.sendAt > b.sendAt ? 1 : 0));
+  return reminders;
+}
+
+module.exports = { scheduleReminders };
+
+},
+"lib/detectLanguage.js":function(require,module,exports){
+'use strict';
+
+// detectLanguage: 'he'/'en'/'unknown' by share of Hebrew vs Latin LETTERS.
+// Letters = Hebrew (֐-׿) or Latin (A-Za-z) only; digits/spaces/punct
+// (and other scripts) are ignored in the denominator.
+function detectLanguage(text) {
+  if (typeof text !== 'string') return 'unknown';
+  let he = 0;
+  let latin = 0;
+  for (const ch of text) {
+    if (ch >= '֐' && ch <= '׿') he++;
+    else if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) latin++;
+  }
+  const letters = he + latin;
+  if (letters === 0) return 'unknown';
+  if (he / letters > 0.3) return 'he'; // Hebrew wins ties when both exceed 30%
+  if (latin / letters > 0.3) return 'en';
+  return 'unknown';
+}
+
+module.exports = { detectLanguage };
+
+}};const __cache={};function __require(id,from){if(id.startsWith('.')){id=(from.slice(0,from.lastIndexOf('/')+1)+id).split('/').reduce((a,p)=>p==='..'?(a.pop(),a):p==='.'?a:(a.push(p),a),[]).join('/')}if(!id.endsWith('.js'))id+='.js';if(__cache[id])return __cache[id].exports;const fn=__modules[id];if(!fn)throw new Error('Module not bundled: '+id);const module={exports:{}};__cache[id]=module;const localRequire=req=>__require(req,id);localRequire.main=null;fn(localRequire,module,module.exports);return module.exports}
 const Biz={...__require('lib/parseBookingRequest.js'),...__require('lib/generateHybridReply.js'),...__require('lib/scheduleReminders.js'),...__require('lib/detectLanguage.js')};const $=x=>document.getElementById(x),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));function run(e){if(e)e.preventDefault();try{const msg=$('message').value,parsed=Biz.parseBookingRequest(msg),reply=Biz.generateHybridReply({customerName:parsed?.patientName||'דנה',clinicName:'מרפאת חיוך'},msg);let reminders=[];if(parsed?.date&&parsed?.time){const start=new Date(`${parsed.date}T${parsed.time}:00`);reminders=Biz.scheduleReminders(start,{now:new Date()})}$('chat').innerHTML=`<div class="bubble customer">${esc(msg)}</div><div class="bubble bot">${esc(reply)}<div class="meta">מענה אוטומטי · WhatsBiz</div></div><div class="chips"><span class="chip">שפה: ${esc(Biz.detectLanguage(msg))}</span><span class="chip">כוונה: ${parsed?'קביעת תור':'כללית'}</span><span class="chip">ביטחון: ${Math.round((parsed?.confidence||0)*100)}%</span>${parsed?.date?`<span class="chip">${parsed.date} · ${parsed.time||'שעה חסרה'}</span>`:''}${reminders.map(r=>`<span class="chip">תזכורת ${r.hoursBefore} שעות לפני</span>`).join('')}</div>`}catch(err){$('chat').innerHTML=`<p class="error">${esc(err.message)}</p>`}}$('form').addEventListener('submit',run);run();
 </script></body></html>
