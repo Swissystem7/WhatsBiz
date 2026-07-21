@@ -343,10 +343,5 @@
     "mtime": 1784200866.4932146,
     "ast_hash": "e656706320b19963d66abfeeb0acca48",
     "semantic_hash": "e656706320b19963d66abfeeb0acca48"
-  },
-  "VALIDATION.md": {
-    "mtime": 1784581427.3520584,
-    "ast_hash": "97438c00af3f3c963508f26ed62c3e6b",
-    "semantic_hash": ""
   }
 }

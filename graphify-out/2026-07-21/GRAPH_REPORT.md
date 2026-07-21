@@ -1,16 +1,15 @@
-# Graph Report - WhatsBiz  (2026-07-21)
+# Graph Report - .  (2026-07-20)
 
 ## Corpus Check
-- 64 files · ~23,174 words
-- Verdict: corpus is large enough that graph structure adds value.
+- cluster-only mode — file stats not available
 
 ## Summary
-- 216 nodes · 276 edges · 50 communities (46 shown, 4 thin omitted)
-- Extraction: 75% EXTRACTED · 25% INFERRED · 0% AMBIGUOUS · INFERRED: 70 edges (avg confidence: 0.62)
+- 208 nodes · 269 edges · 49 communities (44 shown, 5 thin omitted)
+- Extraction: 74% EXTRACTED · 26% INFERRED · 0% AMBIGUOUS · INFERRED: 70 edges (avg confidence: 0.62)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `d23bf6a3`
+- Built from commit: `7378ed8b`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -32,7 +31,6 @@
 - generateReferralCode.js
 - getRotatedResponse.js
 - templates/index.html (landing)
-- WhatsBiz — גיליון אימות שוק (30 יום)
 
 ## God Nodes (most connected - your core abstractions)
 1. `Business` - 11 edges
@@ -66,19 +64,19 @@
 - **Dashboard Workspace** — templates_dashboard, customer_management, dna_style, auction_system [EXTRACTED 1.00]
 - **Technology Stack** — requirements_fastapi, requirements_uvicorn, requirements_pydantic, requirements_sqlalchemy, requirements_aiosqlite, requirements_anthropic, requirements_python_dotenv, requirements_python_multipart [EXTRACTED 1.00]
 
-## Communities (50 total, 4 thin omitted)
+## Communities (49 total, 5 thin omitted)
 
 ### Community 0 - "parseBookingRequest.test.js"
 Cohesion: 0.08
 Nodes (23): Booking Intent, index.html (main app), run (main handler), Language Detection, detectLanguage(), assert, { detectLanguage }, generateHybridReply() (+15 more)
 
 ### Community 1 - "chat.py"
-Cohesion: 0.19
-Nodes (21): Base, get_db(), AsyncSession, BotConfig, Business, Conversation, Message, chat() (+13 more)
+Cohesion: 0.20
+Nodes (19): Base, get_db(), AsyncSession, BotConfig, Business, Conversation, Message, chat() (+11 more)
 
 ### Community 2 - "schemas.py"
-Cohesion: 0.32
-Nodes (10): create_business(), AsyncSession, BotConfigUpdate, ChatRequest, ChatResponse, ConversationOut, MessageOut, OnboardingRequest (+2 more)
+Cohesion: 0.26
+Nodes (13): _get_business_and_config(), get_config(), AsyncSession, update_config(), BotConfigResponse, BotConfigUpdate, ChatRequest, ChatResponse (+5 more)
 
 ### Community 3 - "WhatsBiz Project"
 Cohesion: 0.31
@@ -87,10 +85,6 @@ Nodes (10): aiosqlite, Anthropic, FastAPI, Pydantic, python-dotenv, python-multi
 ### Community 4 - "scheduleReminders.test.js"
 Cohesion: 0.25
 Nodes (7): scheduleReminders(), assert, now, r, { scheduleReminders }, start, Reminder Scheduling
-
-### Community 5 - "main.py"
-Cohesion: 0.32
-Nodes (3): init_db(), lifespan(), FastAPI
 
 ### Community 6 - "assistBSPOnboarding.test.js"
 Cohesion: 0.33
@@ -120,22 +114,18 @@ Nodes (3): templateFill(), assert, { templateFill }
 Cohesion: 0.50
 Nodes (3): Auction System, Customer Management, DNA Style
 
-### Community 49 - "WhatsBiz — גיליון אימות שוק (30 יום)"
-Cohesion: 0.25
-Nodes (7): 1. ICP מדויק (הלקוח הראשון), 2. מחיר מוצע + מודל, 3. זווית מול המתחרה המרכזי (WATI / Zoko), 4. תוכנית 100 המשתמשים הראשונים (תקציב 0), 5. קריטריון המשך/פיבוט/הריגה (30 יום), WhatsBiz — Market Validation (auto, DeepSeek 2026-07-20), WhatsBiz — גיליון אימות שוק (30 יום)
-
 ## Knowledge Gaps
-- **57 isolated node(s):** `registeredNames`, `assert`, `{ assistBSPOnboarding }`, `result`, `assert` (+52 more)
+- **51 isolated node(s):** `registeredNames`, `assert`, `{ assistBSPOnboarding }`, `result`, `assert` (+46 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **5 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `index.html (main app)` connect `parseBookingRequest.test.js` to `scheduleReminders.test.js`?**
-  _High betweenness centrality (0.011) - this node is a cross-community bridge._
+  _High betweenness centrality (0.012) - this node is a cross-community bridge._
 - **Why does `run (main handler)` connect `parseBookingRequest.test.js` to `scheduleReminders.test.js`?**
-  _High betweenness centrality (0.011) - this node is a cross-community bridge._
+  _High betweenness centrality (0.012) - this node is a cross-community bridge._
 - **Why does `Business` connect `chat.py` to `schemas.py`?**
   _High betweenness centrality (0.003) - this node is a cross-community bridge._
 - **Are the 3 inferred relationships involving `Business` (e.g. with `Base` and `chat()`) actually correct?**
