@@ -625,28 +625,6 @@
       "norm_label": "get_claude_reply()"
     },
     {
-      "label": "adjustToneWithEmpathy.js",
-      "file_type": "code",
-      "source_file": "lib/adjustToneWithEmpathy.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_adjusttonewithempathy",
-      "community": 53,
-      "community_name": "adjustToneWithEmpathy.js",
-      "norm_label": "adjusttonewithempathy.js"
-    },
-    {
-      "label": "adjustToneWithEmpathy()",
-      "file_type": "code",
-      "source_file": "lib/adjustToneWithEmpathy.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_adjusttonewithempathy_adjusttonewithempathy",
-      "community": 53,
-      "community_name": "adjustToneWithEmpathy.js",
-      "norm_label": "adjusttonewithempathy()"
-    },
-    {
       "label": "analyzeEscalationNeed.js",
       "file_type": "code",
       "source_file": "lib/analyzeEscalationNeed.js",
@@ -667,28 +645,6 @@
       "community": 16,
       "community_name": "analyzeEscalationNeed.js",
       "norm_label": "analyzeescalationneed()"
-    },
-    {
-      "label": "anonymizePatientData.js",
-      "file_type": "code",
-      "source_file": "lib/anonymizePatientData.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_anonymizepatientdata",
-      "community": 54,
-      "community_name": "anonymizePatientData.js",
-      "norm_label": "anonymizepatientdata.js"
-    },
-    {
-      "label": "anonymizePatientData()",
-      "file_type": "code",
-      "source_file": "lib/anonymizePatientData.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_anonymizepatientdata_anonymizepatientdata",
-      "community": 54,
-      "community_name": "anonymizePatientData.js",
-      "norm_label": "anonymizepatientdata()"
     },
     {
       "label": "assistBSPOnboarding.js",
@@ -790,28 +746,6 @@
       "norm_label": "autoonboardbsp()"
     },
     {
-      "label": "buildBookingFlowTree.js",
-      "file_type": "code",
-      "source_file": "lib/buildBookingFlowTree.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_buildbookingflowtree",
-      "community": 55,
-      "community_name": "buildBookingFlowTree.js",
-      "norm_label": "buildbookingflowtree.js"
-    },
-    {
-      "label": "buildBookingFlowTree()",
-      "file_type": "code",
-      "source_file": "lib/buildBookingFlowTree.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_buildbookingflowtree_buildbookingflowtree",
-      "community": 55,
-      "community_name": "buildBookingFlowTree.js",
-      "norm_label": "buildbookingflowtree()"
-    },
-    {
       "label": "canSendMessage.js",
       "file_type": "code",
       "source_file": "lib/canSendMessage.js",
@@ -878,72 +812,6 @@
       "norm_label": "checkhebrewresponseconfidence()"
     },
     {
-      "label": "collectBookingDeposit.js",
-      "file_type": "code",
-      "source_file": "lib/collectBookingDeposit.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_collectbookingdeposit",
-      "community": 51,
-      "community_name": "collectBookingDeposit.js",
-      "norm_label": "collectbookingdeposit.js"
-    },
-    {
-      "label": "{ randomUUID }",
-      "file_type": "code",
-      "source_file": "lib/collectBookingDeposit.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_collectbookingdeposit_randomuuid",
-      "community": 51,
-      "community_name": "collectBookingDeposit.js",
-      "norm_label": "{ randomuuid }"
-    },
-    {
-      "label": "depositStore",
-      "file_type": "code",
-      "source_file": "lib/collectBookingDeposit.js",
-      "source_location": "L2",
-      "_origin": "ast",
-      "id": "lib_collectbookingdeposit_depositstore",
-      "community": 51,
-      "community_name": "collectBookingDeposit.js",
-      "norm_label": "depositstore"
-    },
-    {
-      "label": "collectBookingDeposit()",
-      "file_type": "code",
-      "source_file": "lib/collectBookingDeposit.js",
-      "source_location": "L4",
-      "_origin": "ast",
-      "id": "lib_collectbookingdeposit_collectbookingdeposit",
-      "community": 51,
-      "community_name": "collectBookingDeposit.js",
-      "norm_label": "collectbookingdeposit()"
-    },
-    {
-      "label": "composeInitialBotMessages.js",
-      "file_type": "code",
-      "source_file": "lib/composeInitialBotMessages.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_composeinitialbotmessages",
-      "community": 56,
-      "community_name": "composeInitialBotMessages.js",
-      "norm_label": "composeinitialbotmessages.js"
-    },
-    {
-      "label": "composeInitialBotMessages()",
-      "file_type": "code",
-      "source_file": "lib/composeInitialBotMessages.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_composeinitialbotmessages_composeinitialbotmessages",
-      "community": 56,
-      "community_name": "composeInitialBotMessages.js",
-      "norm_label": "composeinitialbotmessages()"
-    },
-    {
       "label": "containsMedicalAdviceQuery.js",
       "file_type": "code",
       "source_file": "lib/containsMedicalAdviceQuery.js",
@@ -964,50 +832,6 @@
       "community": 21,
       "community_name": "containsMedicalAdviceQuery.js",
       "norm_label": "containsmedicaladvicequery()"
-    },
-    {
-      "label": "createAuditLog.js",
-      "file_type": "code",
-      "source_file": "lib/createAuditLog.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_createauditlog",
-      "community": 57,
-      "community_name": "createAuditLog.js",
-      "norm_label": "createauditlog.js"
-    },
-    {
-      "label": "createAuditLog()",
-      "file_type": "code",
-      "source_file": "lib/createAuditLog.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_createauditlog_createauditlog",
-      "community": 57,
-      "community_name": "createAuditLog.js",
-      "norm_label": "createauditlog()"
-    },
-    {
-      "label": "detectAndHandleEscalation.js",
-      "file_type": "code",
-      "source_file": "lib/detectAndHandleEscalation.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_detectandhandleescalation",
-      "community": 58,
-      "community_name": "detectAndHandleEscalation.js",
-      "norm_label": "detectandhandleescalation.js"
-    },
-    {
-      "label": "detectAndHandleEscalation()",
-      "file_type": "code",
-      "source_file": "lib/detectAndHandleEscalation.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_detectandhandleescalation_detectandhandleescalation",
-      "community": 58,
-      "community_name": "detectAndHandleEscalation.js",
-      "norm_label": "detectandhandleescalation()"
     },
     {
       "label": "detectFrustrationAndEscalate.js",
@@ -1087,28 +911,6 @@
       "norm_label": "{ detectlanguage }"
     },
     {
-      "label": "detectSuspiciousBooking.js",
-      "file_type": "code",
-      "source_file": "lib/detectSuspiciousBooking.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_detectsuspiciousbooking",
-      "community": 59,
-      "community_name": "detectSuspiciousBooking.js",
-      "norm_label": "detectsuspiciousbooking.js"
-    },
-    {
-      "label": "detectSuspiciousBooking()",
-      "file_type": "code",
-      "source_file": "lib/detectSuspiciousBooking.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_detectsuspiciousbooking_detectsuspiciousbooking",
-      "community": 59,
-      "community_name": "detectSuspiciousBooking.js",
-      "norm_label": "detectsuspiciousbooking()"
-    },
-    {
       "label": "diversifyHebrewReply.js",
       "file_type": "code",
       "source_file": "lib/diversifyHebrewReply.js",
@@ -1151,28 +953,6 @@
       "community": 24,
       "community_name": "escalateToHuman.js",
       "norm_label": "escalatetohuman()"
-    },
-    {
-      "label": "extractFaqSuggestion.js",
-      "file_type": "code",
-      "source_file": "lib/extractFaqSuggestion.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_extractfaqsuggestion",
-      "community": 60,
-      "community_name": "extractFaqSuggestion.js",
-      "norm_label": "extractfaqsuggestion.js"
-    },
-    {
-      "label": "extractFaqSuggestion()",
-      "file_type": "code",
-      "source_file": "lib/extractFaqSuggestion.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_extractfaqsuggestion_extractfaqsuggestion",
-      "community": 60,
-      "community_name": "extractFaqSuggestion.js",
-      "norm_label": "extractfaqsuggestion()"
     },
     {
       "label": "extractTrainingDataFromSource.js",
@@ -1437,28 +1217,6 @@
       "community": 32,
       "community_name": "generateUpsellSuggestion.js",
       "norm_label": "generateupsellsuggestion()"
-    },
-    {
-      "label": "generateWhatsAppTemplate.js",
-      "file_type": "code",
-      "source_file": "lib/generateWhatsAppTemplate.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_generatewhatsapptemplate",
-      "community": 61,
-      "community_name": "generateWhatsAppTemplate.js",
-      "norm_label": "generatewhatsapptemplate.js"
-    },
-    {
-      "label": "generateWhatsAppTemplate()",
-      "file_type": "code",
-      "source_file": "lib/generateWhatsAppTemplate.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_generatewhatsapptemplate_generatewhatsapptemplate",
-      "community": 61,
-      "community_name": "generateWhatsAppTemplate.js",
-      "norm_label": "generatewhatsapptemplate()"
     },
     {
       "label": "getContextualReply.js",
@@ -2022,72 +1780,6 @@
       "norm_label": "runconversationsimulator()"
     },
     {
-      "label": "scheduleAbandonedInquiryFollowUp.js",
-      "file_type": "code",
-      "source_file": "lib/scheduleAbandonedInquiryFollowUp.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_scheduleabandonedinquiryfollowup",
-      "community": 52,
-      "community_name": "scheduleAbandonedInquiryFollowUp.js",
-      "norm_label": "scheduleabandonedinquiryfollowup.js"
-    },
-    {
-      "label": "{ randomBytes }",
-      "file_type": "code",
-      "source_file": "lib/scheduleAbandonedInquiryFollowUp.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_scheduleabandonedinquiryfollowup_randombytes",
-      "community": 52,
-      "community_name": "scheduleAbandonedInquiryFollowUp.js",
-      "norm_label": "{ randombytes }"
-    },
-    {
-      "label": "usedDiscountCodes",
-      "file_type": "code",
-      "source_file": "lib/scheduleAbandonedInquiryFollowUp.js",
-      "source_location": "L2",
-      "_origin": "ast",
-      "id": "lib_scheduleabandonedinquiryfollowup_useddiscountcodes",
-      "community": 52,
-      "community_name": "scheduleAbandonedInquiryFollowUp.js",
-      "norm_label": "useddiscountcodes"
-    },
-    {
-      "label": "scheduleAbandonedInquiryFollowUp()",
-      "file_type": "code",
-      "source_file": "lib/scheduleAbandonedInquiryFollowUp.js",
-      "source_location": "L4",
-      "_origin": "ast",
-      "id": "lib_scheduleabandonedinquiryfollowup_scheduleabandonedinquiryfollowup",
-      "community": 52,
-      "community_name": "scheduleAbandonedInquiryFollowUp.js",
-      "norm_label": "scheduleabandonedinquiryfollowup()"
-    },
-    {
-      "label": "scheduleFollowUp.js",
-      "file_type": "code",
-      "source_file": "lib/scheduleFollowUp.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_schedulefollowup",
-      "community": 62,
-      "community_name": "scheduleFollowUp.js",
-      "norm_label": "schedulefollowup.js"
-    },
-    {
-      "label": "scheduleFollowUp()",
-      "file_type": "code",
-      "source_file": "lib/scheduleFollowUp.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_schedulefollowup_schedulefollowup",
-      "community": 62,
-      "community_name": "scheduleFollowUp.js",
-      "norm_label": "schedulefollowup()"
-    },
-    {
       "label": "scheduleReminders.js",
       "file_type": "code",
       "source_file": "lib/scheduleReminders.js",
@@ -2176,28 +1868,6 @@
       "norm_label": "r"
     },
     {
-      "label": "shouldTriggerHandoff.js",
-      "file_type": "code",
-      "source_file": "lib/shouldTriggerHandoff.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_shouldtriggerhandoff",
-      "community": 63,
-      "community_name": "shouldTriggerHandoff.js",
-      "norm_label": "shouldtriggerhandoff.js"
-    },
-    {
-      "label": "shouldTriggerHandoff()",
-      "file_type": "code",
-      "source_file": "lib/shouldTriggerHandoff.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_shouldtriggerhandoff_shouldtriggerhandoff",
-      "community": 63,
-      "community_name": "shouldTriggerHandoff.js",
-      "norm_label": "shouldtriggerhandoff()"
-    },
-    {
       "label": "suggestAgentReplies.js",
       "file_type": "code",
       "source_file": "lib/suggestAgentReplies.js",
@@ -2220,28 +1890,6 @@
       "norm_label": "suggestagentreplies()"
     },
     {
-      "label": "suggestNewFAQEntry.js",
-      "file_type": "code",
-      "source_file": "lib/suggestNewFAQEntry.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_suggestnewfaqentry",
-      "community": 64,
-      "community_name": "suggestNewFAQEntry.js",
-      "norm_label": "suggestnewfaqentry.js"
-    },
-    {
-      "label": "suggestNewFAQEntry()",
-      "file_type": "code",
-      "source_file": "lib/suggestNewFAQEntry.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_suggestnewfaqentry_suggestnewfaqentry",
-      "community": 64,
-      "community_name": "suggestNewFAQEntry.js",
-      "norm_label": "suggestnewfaqentry()"
-    },
-    {
       "label": "suggestOptimalAppointmentSlots.js",
       "file_type": "code",
       "source_file": "lib/suggestOptimalAppointmentSlots.js",
@@ -2262,28 +1910,6 @@
       "community": 41,
       "community_name": "suggestOptimalAppointmentSlots.js",
       "norm_label": "suggestoptimalappointmentslots()"
-    },
-    {
-      "label": "suggestUpsells.js",
-      "file_type": "code",
-      "source_file": "lib/suggestUpsells.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_suggestupsells",
-      "community": 65,
-      "community_name": "suggestUpsells.js",
-      "norm_label": "suggestupsells.js"
-    },
-    {
-      "label": "suggestUpsells()",
-      "file_type": "code",
-      "source_file": "lib/suggestUpsells.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_suggestupsells_suggestupsells",
-      "community": 65,
-      "community_name": "suggestUpsells.js",
-      "norm_label": "suggestupsells()"
     },
     {
       "label": "templateFill.js",
@@ -2361,61 +1987,6 @@
       "community": 42,
       "community_name": "validateBookingConsent.js",
       "norm_label": "validatebookingconsent()"
-    },
-    {
-      "label": "verifyPatientIdentity.js",
-      "file_type": "code",
-      "source_file": "lib/verifyPatientIdentity.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_verifypatientidentity",
-      "community": 50,
-      "community_name": "verifyPatientIdentity.js",
-      "norm_label": "verifypatientidentity.js"
-    },
-    {
-      "label": "generateVerificationCode()",
-      "file_type": "code",
-      "source_file": "lib/verifyPatientIdentity.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "lib_verifypatientidentity_generateverificationcode",
-      "community": 50,
-      "community_name": "verifyPatientIdentity.js",
-      "norm_label": "generateverificationcode()"
-    },
-    {
-      "label": "store",
-      "file_type": "code",
-      "source_file": "lib/verifyPatientIdentity.js",
-      "source_location": "L13",
-      "_origin": "ast",
-      "id": "lib_verifypatientidentity_store",
-      "community": 50,
-      "community_name": "verifyPatientIdentity.js",
-      "norm_label": "store"
-    },
-    {
-      "label": "confirmVerificationCode()",
-      "file_type": "code",
-      "source_file": "lib/verifyPatientIdentity.js",
-      "source_location": "L15",
-      "_origin": "ast",
-      "id": "lib_verifypatientidentity_confirmverificationcode",
-      "community": 50,
-      "community_name": "verifyPatientIdentity.js",
-      "norm_label": "confirmverificationcode()"
-    },
-    {
-      "label": "verifyPatientIdentity()",
-      "file_type": "code",
-      "source_file": "lib/verifyPatientIdentity.js",
-      "source_location": "L45",
-      "_origin": "ast",
-      "id": "lib_verifypatientidentity_verifypatientidentity",
-      "community": 50,
-      "community_name": "verifyPatientIdentity.js",
-      "norm_label": "verifypatientidentity()"
     },
     {
       "label": "verifyWhatsAppSignature.js",
@@ -4539,18 +4110,6 @@
     {
       "relation": "indirect_call",
       "confidence": "INFERRED",
-      "source_file": "lib/adjustToneWithEmpathy.js",
-      "source_location": "L14",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "source": "lib_adjusttonewithempathy",
-      "target": "lib_adjusttonewithempathy_adjusttonewithempathy",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
       "source_file": "lib/analyzeEscalationNeed.js",
       "source_location": "L33",
       "weight": 1.0,
@@ -4558,18 +4117,6 @@
       "context": "collection",
       "source": "lib_analyzeescalationneed",
       "target": "lib_analyzeescalationneed_analyzeescalationneed",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
-      "source_file": "lib/anonymizePatientData.js",
-      "source_location": "L21",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "source": "lib_anonymizepatientdata",
-      "target": "lib_anonymizepatientdata_anonymizepatientdata",
       "confidence_score": 0.5
     },
     {
@@ -4667,18 +4214,6 @@
     {
       "relation": "indirect_call",
       "confidence": "INFERRED",
-      "source_file": "lib/buildBookingFlowTree.js",
-      "source_location": "L37",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "source": "lib_buildbookingflowtree",
-      "target": "lib_buildbookingflowtree_buildbookingflowtree",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
       "source_file": "lib/canSendMessage.js",
       "source_location": "L26",
       "weight": 1.0,
@@ -4715,52 +4250,6 @@
     {
       "relation": "indirect_call",
       "confidence": "INFERRED",
-      "source_file": "lib/collectBookingDeposit.js",
-      "source_location": "L26",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "source": "lib_collectbookingdeposit",
-      "target": "lib_collectbookingdeposit_collectbookingdeposit",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/collectBookingDeposit.js",
-      "source_location": "L2",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "lib_collectbookingdeposit",
-      "target": "lib_collectbookingdeposit_depositstore",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/collectBookingDeposit.js",
-      "source_location": "L1",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "lib_collectbookingdeposit",
-      "target": "lib_collectbookingdeposit_randomuuid",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
-      "source_file": "lib/composeInitialBotMessages.js",
-      "source_location": "L19",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "source": "lib_composeinitialbotmessages",
-      "target": "lib_composeinitialbotmessages_composeinitialbotmessages",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
       "source_file": "lib/containsMedicalAdviceQuery.js",
       "source_location": "L127",
       "weight": 1.0,
@@ -4768,30 +4257,6 @@
       "context": "collection",
       "source": "lib_containsmedicaladvicequery",
       "target": "lib_containsmedicaladvicequery_containsmedicaladvicequery",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
-      "source_file": "lib/createAuditLog.js",
-      "source_location": "L22",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "source": "lib_createauditlog",
-      "target": "lib_createauditlog_createauditlog",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
-      "source_file": "lib/detectAndHandleEscalation.js",
-      "source_location": "L64",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "source": "lib_detectandhandleescalation",
-      "target": "lib_detectandhandleescalation_detectandhandleescalation",
       "confidence_score": 0.5
     },
     {
@@ -4917,18 +4382,6 @@
     {
       "relation": "indirect_call",
       "confidence": "INFERRED",
-      "source_file": "lib/detectSuspiciousBooking.js",
-      "source_location": "L46",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "source": "lib_detectsuspiciousbooking",
-      "target": "lib_detectsuspiciousbooking_detectsuspiciousbooking",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
       "source_file": "lib/diversifyHebrewReply.js",
       "source_location": "L421",
       "weight": 1.0,
@@ -4948,18 +4401,6 @@
       "context": "collection",
       "source": "lib_escalatetohuman",
       "target": "lib_escalatetohuman_escalatetohuman",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
-      "source_file": "lib/extractFaqSuggestion.js",
-      "source_location": "L94",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "source": "lib_extractfaqsuggestion",
-      "target": "lib_extractfaqsuggestion_extractfaqsuggestion",
       "confidence_score": 0.5
     },
     {
@@ -5157,18 +4598,6 @@
       "context": "collection",
       "source": "lib_generateupsellsuggestion",
       "target": "lib_generateupsellsuggestion_generateupsellsuggestion",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
-      "source_file": "lib/generateWhatsAppTemplate.js",
-      "source_location": "L55",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "source": "lib_generatewhatsapptemplate",
-      "target": "lib_generatewhatsapptemplate_generatewhatsapptemplate",
       "confidence_score": 0.5
     },
     {
@@ -5671,52 +5100,6 @@
       "confidence_score": 0.5
     },
     {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/scheduleAbandonedInquiryFollowUp.js",
-      "source_location": "L1",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "lib_scheduleabandonedinquiryfollowup",
-      "target": "lib_scheduleabandonedinquiryfollowup_randombytes",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
-      "source_file": "lib/scheduleAbandonedInquiryFollowUp.js",
-      "source_location": "L24",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "source": "lib_scheduleabandonedinquiryfollowup",
-      "target": "lib_scheduleabandonedinquiryfollowup_scheduleabandonedinquiryfollowup",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/scheduleAbandonedInquiryFollowUp.js",
-      "source_location": "L2",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "lib_scheduleabandonedinquiryfollowup",
-      "target": "lib_scheduleabandonedinquiryfollowup_useddiscountcodes",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
-      "source_file": "lib/scheduleFollowUp.js",
-      "source_location": "L32",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "source": "lib_schedulefollowup",
-      "target": "lib_schedulefollowup_schedulefollowup",
-      "confidence_score": 0.5
-    },
-    {
       "relation": "references",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
@@ -5840,18 +5223,6 @@
     {
       "relation": "indirect_call",
       "confidence": "INFERRED",
-      "source_file": "lib/shouldTriggerHandoff.js",
-      "source_location": "L20",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "source": "lib_shouldtriggerhandoff",
-      "target": "lib_shouldtriggerhandoff_shouldtriggerhandoff",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
       "source_file": "lib/suggestAgentReplies.js",
       "source_location": "L65",
       "weight": 1.0,
@@ -5864,18 +5235,6 @@
     {
       "relation": "indirect_call",
       "confidence": "INFERRED",
-      "source_file": "lib/suggestNewFAQEntry.js",
-      "source_location": "L23",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "source": "lib_suggestnewfaqentry",
-      "target": "lib_suggestnewfaqentry_suggestnewfaqentry",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
       "source_file": "lib/suggestOptimalAppointmentSlots.js",
       "source_location": "L73",
       "weight": 1.0,
@@ -5883,18 +5242,6 @@
       "context": "collection",
       "source": "lib_suggestoptimalappointmentslots",
       "target": "lib_suggestoptimalappointmentslots_suggestoptimalappointmentslots",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
-      "source_file": "lib/suggestUpsells.js",
-      "source_location": "L43",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "source": "lib_suggestupsells",
-      "target": "lib_suggestupsells_suggestupsells",
       "confidence_score": 0.5
     },
     {
@@ -5966,75 +5313,6 @@
       "source": "lib_validatebookingconsent",
       "target": "lib_validatebookingconsent_validatebookingconsent",
       "confidence_score": 0.5
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/verifyPatientIdentity.js",
-      "source_location": "L15",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "lib_verifypatientidentity",
-      "target": "lib_verifypatientidentity_confirmverificationcode",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/verifyPatientIdentity.js",
-      "source_location": "L1",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "lib_verifypatientidentity",
-      "target": "lib_verifypatientidentity_generateverificationcode",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/verifyPatientIdentity.js",
-      "source_location": "L13",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "lib_verifypatientidentity",
-      "target": "lib_verifypatientidentity_store",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "indirect_call",
-      "confidence": "INFERRED",
-      "source_file": "lib/verifyPatientIdentity.js",
-      "source_location": "L52",
-      "weight": 1.0,
-      "_origin": "ast",
-      "context": "collection",
-      "source": "lib_verifypatientidentity",
-      "target": "lib_verifypatientidentity_verifypatientidentity",
-      "confidence_score": 0.5
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/verifyPatientIdentity.js",
-      "source_location": "L47",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "lib_verifypatientidentity_verifypatientidentity",
-      "target": "lib_verifypatientidentity_generateverificationcode",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/verifyPatientIdentity.js",
-      "source_location": "L49",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "lib_verifypatientidentity_verifypatientidentity",
-      "target": "lib_verifypatientidentity_confirmverificationcode",
-      "confidence_score": 1.0
     },
     {
       "relation": "indirect_call",
@@ -6434,5 +5712,5 @@
       "source_file": "requirements.txt"
     }
   ],
-  "built_at_commit": "2cec017ef06bea0ed2b204c7ac976718841c77d8"
+  "built_at_commit": "d23bf6a3c0c9ad52f93991862c83c9209cdf8b9f"
 }

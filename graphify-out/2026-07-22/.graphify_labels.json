@@ -48,21 +48,5 @@
   "46": "services/__init__.py",
   "47": "README.md",
   "48": "templates/index.html (landing)",
-  "49": "WhatsBiz — גיליון אימות שוק (30 יום)",
-  "50": "verifyPatientIdentity.js",
-  "51": "collectBookingDeposit.js",
-  "52": "scheduleAbandonedInquiryFollowUp.js",
-  "53": "adjustToneWithEmpathy.js",
-  "54": "anonymizePatientData.js",
-  "55": "buildBookingFlowTree.js",
-  "56": "composeInitialBotMessages.js",
-  "57": "createAuditLog.js",
-  "58": "detectAndHandleEscalation.js",
-  "59": "detectSuspiciousBooking.js",
-  "60": "extractFaqSuggestion.js",
-  "61": "generateWhatsAppTemplate.js",
-  "62": "scheduleFollowUp.js",
-  "63": "shouldTriggerHandoff.js",
-  "64": "suggestNewFAQEntry.js",
-  "65": "suggestUpsells.js"
+  "49": "WhatsBiz — גיליון אימות שוק (30 יום)"
 }

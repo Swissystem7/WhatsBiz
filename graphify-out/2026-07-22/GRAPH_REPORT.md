@@ -1,16 +1,16 @@
-# Graph Report - WhatsBiz  (2026-07-22)
+# Graph Report - WhatsBiz  (2026-07-21)
 
 ## Corpus Check
-- 80 files · ~25,762 words
+- 64 files · ~23,174 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 255 nodes · 301 edges · 66 communities (60 shown, 6 thin omitted)
-- Extraction: 71% EXTRACTED · 29% INFERRED · 0% AMBIGUOUS · INFERRED: 86 edges (avg confidence: 0.59)
+- 216 nodes · 276 edges · 50 communities (46 shown, 4 thin omitted)
+- Extraction: 75% EXTRACTED · 25% INFERRED · 0% AMBIGUOUS · INFERRED: 70 edges (avg confidence: 0.62)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `2cec017e`
+- Built from commit: `d23bf6a3`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -33,9 +33,6 @@
 - getRotatedResponse.js
 - templates/index.html (landing)
 - WhatsBiz — גיליון אימות שוק (30 יום)
-- verifyPatientIdentity.js
-- collectBookingDeposit.js
-- scheduleAbandonedInquiryFollowUp.js
 
 ## God Nodes (most connected - your core abstractions)
 1. `Business` - 11 edges
@@ -69,7 +66,7 @@
 - **Dashboard Workspace** — templates_dashboard, customer_management, dna_style, auction_system [EXTRACTED 1.00]
 - **Technology Stack** — requirements_fastapi, requirements_uvicorn, requirements_pydantic, requirements_sqlalchemy, requirements_aiosqlite, requirements_anthropic, requirements_python_dotenv, requirements_python_multipart [EXTRACTED 1.00]
 
-## Communities (66 total, 6 thin omitted)
+## Communities (50 total, 4 thin omitted)
 
 ### Community 0 - "parseBookingRequest.test.js"
 Cohesion: 0.08
@@ -127,24 +124,20 @@ Nodes (3): Auction System, Customer Management, DNA Style
 Cohesion: 0.25
 Nodes (7): 1. ICP מדויק (הלקוח הראשון), 2. מחיר מוצע + מודל, 3. זווית מול המתחרה המרכזי (WATI / Zoko), 4. תוכנית 100 המשתמשים הראשונים (תקציב 0), 5. קריטריון המשך/פיבוט/הריגה (30 יום), WhatsBiz — Market Validation (auto, DeepSeek 2026-07-20), WhatsBiz — גיליון אימות שוק (30 יום)
 
-### Community 50 - "verifyPatientIdentity.js"
-Cohesion: 0.60
-Nodes (4): confirmVerificationCode(), generateVerificationCode(), store, verifyPatientIdentity()
-
 ## Knowledge Gaps
-- **62 isolated node(s):** `registeredNames`, `assert`, `{ assistBSPOnboarding }`, `result`, `{ randomUUID }` (+57 more)
+- **57 isolated node(s):** `registeredNames`, `assert`, `{ assistBSPOnboarding }`, `result`, `assert` (+52 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **6 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `index.html (main app)` connect `parseBookingRequest.test.js` to `scheduleReminders.test.js`?**
-  _High betweenness centrality (0.008) - this node is a cross-community bridge._
+  _High betweenness centrality (0.011) - this node is a cross-community bridge._
 - **Why does `run (main handler)` connect `parseBookingRequest.test.js` to `scheduleReminders.test.js`?**
-  _High betweenness centrality (0.008) - this node is a cross-community bridge._
+  _High betweenness centrality (0.011) - this node is a cross-community bridge._
 - **Why does `Business` connect `chat.py` to `schemas.py`?**
-  _High betweenness centrality (0.002) - this node is a cross-community bridge._
+  _High betweenness centrality (0.003) - this node is a cross-community bridge._
 - **Are the 3 inferred relationships involving `Business` (e.g. with `Base` and `chat()`) actually correct?**
   _`Business` has 3 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 3 inferred relationships involving `BotConfig` (e.g. with `Base` and `chat()`) actually correct?**

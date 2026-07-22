@@ -315,9 +315,9 @@
     "semantic_hash": "34f0ad4e3b532676efe34f3132bd0c2f"
   },
   "index.html": {
-    "mtime": 1784679152.8605638,
-    "ast_hash": "28d20ed6a0f62208d2bdbac68cb4cb56",
-    "semantic_hash": ""
+    "mtime": 1784569748.2857494,
+    "ast_hash": "2c826c35909531c1976bf0f892af8045",
+    "semantic_hash": "2c826c35909531c1976bf0f892af8045"
   },
   "lib/README.md": {
     "mtime": 1784217855.0698216,
@@ -347,86 +347,6 @@
   "VALIDATION.md": {
     "mtime": 1784581427.3520584,
     "ast_hash": "97438c00af3f3c963508f26ed62c3e6b",
-    "semantic_hash": ""
-  },
-  "lib/adjustToneWithEmpathy.js": {
-    "mtime": 1784659573.5982485,
-    "ast_hash": "b7dad007b7c280e0f11fa6601743c2e8",
-    "semantic_hash": ""
-  },
-  "lib/anonymizePatientData.js": {
-    "mtime": 1784637967.5096915,
-    "ast_hash": "9121ea5cad46ae050efdd9738ae8c765",
-    "semantic_hash": ""
-  },
-  "lib/buildBookingFlowTree.js": {
-    "mtime": 1784630766.2742155,
-    "ast_hash": "5b8878e6d2d36b1b4810ed8bd2793dfa",
-    "semantic_hash": ""
-  },
-  "lib/collectBookingDeposit.js": {
-    "mtime": 1784645170.7649632,
-    "ast_hash": "f1a18f4923d76af65f3e844d0d9af029",
-    "semantic_hash": ""
-  },
-  "lib/composeInitialBotMessages.js": {
-    "mtime": 1784630765.7429907,
-    "ast_hash": "754d485076499da372b73c69be78d0c3",
-    "semantic_hash": ""
-  },
-  "lib/createAuditLog.js": {
-    "mtime": 1784601965.8075016,
-    "ast_hash": "22e278d8a3e6c05c9c7953405538579d",
-    "semantic_hash": ""
-  },
-  "lib/detectAndHandleEscalation.js": {
-    "mtime": 1784616366.6546643,
-    "ast_hash": "a1aafd6ef62285eabefe6d5771e0545f",
-    "semantic_hash": ""
-  },
-  "lib/detectSuspiciousBooking.js": {
-    "mtime": 1784637968.333398,
-    "ast_hash": "b93f33dfc3b15c82ef8d918e7d99c774",
-    "semantic_hash": ""
-  },
-  "lib/extractFaqSuggestion.js": {
-    "mtime": 1784616370.690684,
-    "ast_hash": "2084e052604988755fd98c3f8ba939e8",
-    "semantic_hash": ""
-  },
-  "lib/generateWhatsAppTemplate.js": {
-    "mtime": 1784630765.07613,
-    "ast_hash": "a08a2bdf94778b33e401e4e8c557e29f",
-    "semantic_hash": ""
-  },
-  "lib/scheduleAbandonedInquiryFollowUp.js": {
-    "mtime": 1784645171.3524954,
-    "ast_hash": "9820be09326163885281a0fbeee284a3",
-    "semantic_hash": ""
-  },
-  "lib/scheduleFollowUp.js": {
-    "mtime": 1784616370.0867784,
-    "ast_hash": "97388cea6c8f390acd2f7ed07b8d77a5",
-    "semantic_hash": ""
-  },
-  "lib/shouldTriggerHandoff.js": {
-    "mtime": 1784659575.145123,
-    "ast_hash": "6459707feeb73774fa9f05a32ccc104c",
-    "semantic_hash": ""
-  },
-  "lib/suggestNewFAQEntry.js": {
-    "mtime": 1784659574.473249,
-    "ast_hash": "e1c5f0708c1b2633ccf41da333033284",
-    "semantic_hash": ""
-  },
-  "lib/suggestUpsells.js": {
-    "mtime": 1784645169.96075,
-    "ast_hash": "ebc4d9c6ac7505c8ee40fea10ed72942",
-    "semantic_hash": ""
-  },
-  "lib/verifyPatientIdentity.js": {
-    "mtime": 1784601965.1578896,
-    "ast_hash": "8c96bc2e9659519abee0087c1b6d6c21",
     "semantic_hash": ""
   }
 }
