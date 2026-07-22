@@ -1,217 +1,70 @@
-<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>WhatsBiz | עוזר קביעת תורים</title><style>
-:root{--green:#19a766;--deep:#073c2c;--pale:#effaf4;--line:#d4e9dd;--muted:#60736a}*{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,#e7f8ef,#f9fcfa 55%);font-family:Arial,sans-serif;color:var(--deep);min-height:100vh}.wrap{max-width:920px;margin:auto;padding:42px 20px}header{text-align:center;margin-bottom:26px}header span{color:var(--green);font-weight:bold}h1{font-size:clamp(2.2rem,6vw,4rem);margin:8px}.phone{max-width:720px;margin:auto;background:white;border:1px solid var(--line);border-radius:25px;overflow:hidden;box-shadow:0 20px 55px #125a3520}.bar{padding:17px 22px;background:var(--deep);color:#fff;display:flex;justify-content:space-between}.chat{padding:24px;min-height:270px;background:var(--pale)}.bubble{max-width:82%;padding:13px 15px;margin:9px 0;border-radius:15px;line-height:1.5}.customer{background:white;margin-right:auto}.bot{background:#d4f4e2}.meta{font-size:.75rem;color:var(--muted);margin-top:4px}.controls{padding:20px;background:white;border-top:1px solid var(--line)}label{font-size:.82rem;color:var(--muted)}textarea{width:100%;resize:vertical;min-height:72px;margin:7px 0;padding:12px;border:1px solid var(--line);border-radius:12px;font:inherit}button{background:var(--green);color:white;border:0;padding:12px 18px;border-radius:10px;font-weight:bold;cursor:pointer}.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.chip{padding:7px 9px;border-radius:99px;background:#eff6f2;font-size:.78rem}.error{color:#a22}
-</style></head><body><main class="wrap"><header><span>WHATS<span dir="ltr">BIZ</span> / SMART INBOX</span><h1>מתעניינים הופכים לתורים.</h1><p>פענוח הודעת לקוח, ניסוח תשובה ותזמון תזכורות — במקום אחד.</p></header><section class="phone"><div class="bar"><b>מרפאת חיוך</b><span>● מחובר</span></div><div class="chat" id="chat"></div><form class="controls" id="form"><label>הודעת לקוח</label><textarea id="message">היי, שמי דנה ואני רוצה לקבוע תור לטיפול מחר בשעה 16:30</textarea><button>נתח ושלח תשובה</button></form></section></main><script>
-const __modules={"lib/parseBookingRequest.js":function(require,module,exports){
-function parseBookingRequest(message) {
-  if (!message || typeof message !== 'string') return null;
-  const lower = message.toLowerCase();
-  const bookingKeywords = ['תור', 'לקבוע', 'להזמין', 'קבע', 'הזמן'];
-  const hasBookingIntent = bookingKeywords.some(kw => lower.includes(kw));
-  if (!hasBookingIntent) return null;
-
-  const services = ['טיפול', 'ניקוי', 'בדיקה', 'השתלה'];
-  let service = null;
-  for (const s of services) {
-    const regex = new RegExp(`תור ל${s}`, 'i');
-    if (regex.test(message)) {
-      service = s;
-      break;
-    }
-  }
-
-  const monthMap = {
-    'ינואר': '01', 'פברואר': '02', 'מרץ': '03', 'אפריל': '04',
-    'מאי': '05', 'יוני': '06', 'יולי': '07', 'אוגוסט': '08',
-    'ספטמבר': '09', 'אוקטובר': '10', 'נובמבר': '11', 'דצמבר': '12'
-  };
-  let date = null;
-  const today = new Date();
-  const tomorrow = new Date(today);
-  tomorrow.setDate(today.getDate() + 1);
-  const nextWeek = new Date(today);
-  nextWeek.setDate(today.getDate() + 7);
-
-  if (/מחר/i.test(message)) {
-    date = tomorrow.toISOString().slice(0, 10);
-  } else if (/בשבוע הבא/i.test(message)) {
-    date = nextWeek.toISOString().slice(0, 10);
-  } else {
-    const dayMonthRegex = /ב(\d{1,2})\s*(ינואר|פברואר|מרץ|אפריל|מאי|יוני|יולי|אוגוסט|ספטמבר|אוקטובר|נובמבר|דצמבר)/i;
-    const match = message.match(dayMonthRegex);
-    if (match) {
-      const day = parseInt(match[1], 10);
-      const month = monthMap[match[2]];
-      if (day >= 1 && day <= 31 && month) {
-        const year = today.getFullYear();
-        const parsedDate = new Date(`${year}-${month}-${day}`);
-        if (parsedDate < today) {
-          parsedDate.setFullYear(year + 1);
-        }
-        date = parsedDate.toISOString().slice(0, 10);
-      }
-    }
-  }
-
-  let time = null;
-  const timeRegex = /בשעה\s*(\d{1,2}:\d{2})/i;
-  const timeMatch = message.match(timeRegex);
-  if (timeMatch) {
-    const [hours, minutes] = timeMatch[1].split(':').map(Number);
-    if (hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59) {
-      time = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-    }
-  }
-
-  let patientName = null;
-  const nameRegex = /שמי\s+([א-ת\s]+)/i;
-  const nameMatch = message.match(nameRegex);
-  if (nameMatch) {
-    const name = nameMatch[1].trim();
-    if (name.length > 0) patientName = name;
-  }
-
-  let confidence = 0;
-  if (service) confidence += 0.33;
-  if (date) confidence += 0.33;
-  if (time) confidence += 0.33;
-  if (patientName) confidence = Math.min(confidence + 0.1, 1);
-
-  return {
-    service,
-    date,
-    time,
-    patientName,
-    confidence: Math.round(confidence * 100) / 100
-  };
-}
-
-module.exports = { parseBookingRequest };
-},
-"lib/generateHybridReply.js":function(require,module,exports){
-function generateHybridReply(context, userMessage) {
-  const blacklist = ['זין', 'בן זונה', 'כוס', 'לך תמות', 'מפגר', 'שמוק', 'חרא', 'טמבל'];
-  const bookingKeywords = ['קבוע', 'תור', 'קבע'];
-  const pricingKeywords = ['מחיר', 'עולה', 'כמה'];
-  const locationKeywords = ['כתובת', 'איפה'];
-
-  if (!userMessage || userMessage.trim() === '') {
-    return 'סליחה, לא הצלחתי להבין. אפנה אותך לנציג תוך 5 דקות.';
-  }
-
-  const lowerMessage = userMessage.toLowerCase();
-  for (const word of blacklist) {
-    if (lowerMessage.includes(word)) {
-      return 'אנא שמור על שפה מכבדת. אפנה אותך לנציג תוך 5 דקות.';
-    }
-  }
-
-  const customerName = context.customerName || 'לך';
-  const clinicName = context.clinicName || 'המרפאה';
-
-  let intent = 'other';
-  for (const keyword of bookingKeywords) {
-    if (lowerMessage.includes(keyword)) {
-      intent = 'booking';
-      break;
-    }
-  }
-  if (intent === 'other') {
-    for (const keyword of pricingKeywords) {
-      if (lowerMessage.includes(keyword)) {
-        intent = 'pricing';
-        break;
-      }
-    }
-  }
-  if (intent === 'other') {
-    for (const keyword of locationKeywords) {
-      if (lowerMessage.includes(keyword)) {
-        intent = 'location';
-        break;
-      }
-    }
-  }
-
-  if (intent === 'booking') {
-    return `שלום ${customerName}, תודה שפנית אל ${clinicName}. אשמח לקבוע לך תור. מתי נוח לך?`;
-  } else if (intent === 'pricing') {
-    return `שלום ${customerName}, תודה שפנית אל ${clinicName}. המחירים משתנים לפי סוג הטיפול. אשמח לפרט לך במייל או בטלפון.`;
-  } else if (intent === 'location') {
-    return `שלום ${customerName}, הכתובת של ${clinicName} היא: רחוב הראשי 1, תל אביב. נשמח לראותך!`;
-  } else {
-    return `סליחה, לא הצלחתי להבין. אפנה אותך לנציג תוך 5 דקות.`;
-  }
-}
-
-module.exports = { generateHybridReply };
-},
-"lib/scheduleReminders.js":function(require,module,exports){
-'use strict';
-
-// WhatsBiz — scheduleReminders
-// No-show reminders: given a confirmed booking start time, compute the
-// reminder send-times (default 24h + 2h before — the pattern shown across
-// 2026 market data to cut no-shows 40-60%). Skips any reminder whose
-// send-time already passed relative to `now` (can't send into the past).
-// Pure/deterministic: inject `now` for tests. No Math.random.
-// Returns [{ hoursBefore, sendAt: ISO }] sorted ascending by sendAt.
-// ponytail: fixed offsets + past-skip only. Quiet-hours shifting (don't
-// fire a reminder at 03:00) is the upgrade path if SMBs complain about
-// timing — pair with isBusinessOpen; not built until the need is real.
-
-function scheduleReminders(bookingStart, opts) {
-  const start = bookingStart instanceof Date ? bookingStart : new Date(bookingStart);
-  if (isNaN(start.getTime())) return [];
-
-  const o = opts && typeof opts === 'object' ? opts : {};
-  const now = o.now instanceof Date ? o.now
-    : (o.now != null ? new Date(o.now) : new Date());
-  if (isNaN(now.getTime())) return [];
-
-  const offsets = Array.isArray(o.hoursBefore) && o.hoursBefore.length
-    ? o.hoursBefore
-    : [24, 2];
-
-  const reminders = [];
-  for (const h of offsets) {
-    const hours = Number(h);
-    if (!isFinite(hours) || hours <= 0) continue;
-    const sendAt = new Date(start.getTime() - hours * 3600 * 1000);
-    if (sendAt.getTime() <= now.getTime()) continue;   // past — can't send
-    if (sendAt.getTime() >= start.getTime()) continue; // guard against bad offset
-    reminders.push({ hoursBefore: hours, sendAt: sendAt.toISOString() });
-  }
-
-  reminders.sort((a, b) => (a.sendAt < b.sendAt ? -1 : a.sendAt > b.sendAt ? 1 : 0));
-  return reminders;
-}
-
-module.exports = { scheduleReminders };
-
-},
-"lib/detectLanguage.js":function(require,module,exports){
-'use strict';
-
-// detectLanguage: 'he'/'en'/'unknown' by share of Hebrew vs Latin LETTERS.
-// Letters = Hebrew (֐-׿) or Latin (A-Za-z) only; digits/spaces/punct
-// (and other scripts) are ignored in the denominator.
-function detectLanguage(text) {
-  if (typeof text !== 'string') return 'unknown';
-  let he = 0;
-  let latin = 0;
-  for (const ch of text) {
-    if (ch >= '֐' && ch <= '׿') he++;
-    else if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) latin++;
-  }
-  const letters = he + latin;
-  if (letters === 0) return 'unknown';
-  if (he / letters > 0.3) return 'he'; // Hebrew wins ties when both exceed 30%
-  if (latin / letters > 0.3) return 'en';
-  return 'unknown';
-}
-
-module.exports = { detectLanguage };
-
-}};const __cache={};function __require(id,from){if(id.startsWith('.')){id=(from.slice(0,from.lastIndexOf('/')+1)+id).split('/').reduce((a,p)=>p==='..'?(a.pop(),a):p==='.'?a:(a.push(p),a),[]).join('/')}if(!id.endsWith('.js'))id+='.js';if(__cache[id])return __cache[id].exports;const fn=__modules[id];if(!fn)throw new Error('Module not bundled: '+id);const module={exports:{}};__cache[id]=module;const localRequire=req=>__require(req,id);localRequire.main=null;fn(localRequire,module,module.exports);return module.exports}
-const Biz={...__require('lib/parseBookingRequest.js'),...__require('lib/generateHybridReply.js'),...__require('lib/scheduleReminders.js'),...__require('lib/detectLanguage.js')};const $=x=>document.getElementById(x),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));function run(e){if(e)e.preventDefault();try{const msg=$('message').value,parsed=Biz.parseBookingRequest(msg),reply=Biz.generateHybridReply({customerName:parsed?.patientName||'דנה',clinicName:'מרפאת חיוך'},msg);let reminders=[];if(parsed?.date&&parsed?.time){const start=new Date(`${parsed.date}T${parsed.time}:00`);reminders=Biz.scheduleReminders(start,{now:new Date()})}$('chat').innerHTML=`<div class="bubble customer">${esc(msg)}</div><div class="bubble bot">${esc(reply)}<div class="meta">מענה אוטומטי · WhatsBiz</div></div><div class="chips"><span class="chip">שפה: ${esc(Biz.detectLanguage(msg))}</span><span class="chip">כוונה: ${parsed?'קביעת תור':'כללית'}</span><span class="chip">ביטחון: ${Math.round((parsed?.confidence||0)*100)}%</span>${parsed?.date?`<span class="chip">${parsed.date} · ${parsed.time||'שעה חסרה'}</span>`:''}${reminders.map(r=>`<span class="chip">תזכורת ${r.hoursBefore} שעות לפני</span>`).join('')}</div>`}catch(err){$('chat').innerHTML=`<p class="error">${esc(err.message)}</p>`}}$('form').addEventListener('submit',run);run();
-</script></body></html>
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>WhatsBiz | דמו לבוט WhatsApp לעסק</title>
+  <style>
+    :root{--green:#00a884;--dark:#075e54;--ink:#17342f;--muted:#667b76;--paper:#fff;--chat:#efeae2;--out:#d9fdd3;--line:#dce7e3;--shadow:0 24px 70px #163a3224}
+    *{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,#e5f7f1,#fbfdfc 58%);color:var(--ink);font-family:Arial,"Noto Sans Hebrew",sans-serif;min-height:100vh}
+    button,input{font:inherit}.page{width:min(1080px,100%);margin:auto;padding:28px 18px 54px}.demo-banner{max-width:760px;margin:0 auto 20px;padding:12px 18px;border:1px solid #bce0d5;background:#f4fffb;border-radius:12px;text-align:center;font-size:.92rem}.demo-banner b{color:var(--dark)}
+    .intro{text-align:center;margin-bottom:25px}.brand{color:var(--green);font-weight:800;letter-spacing:.08em}.intro h1{font-size:clamp(1.8rem,5vw,3.2rem);margin:.35rem 0}.intro p{color:var(--muted);margin:.35rem auto;max-width:620px;line-height:1.6}
+    .simulator{display:grid;grid-template-columns:minmax(280px,410px) minmax(250px,330px);gap:25px;align-items:center;justify-content:center;direction:ltr}.phone{direction:rtl;background:#111;border:8px solid #17201e;border-radius:35px;box-shadow:var(--shadow);overflow:hidden;min-height:650px;position:relative}.phone:before{content:"";position:absolute;z-index:4;top:0;left:50%;translate:-50% 0;width:105px;height:18px;border-radius:0 0 14px 14px;background:#17201e}
+    .wa-head{height:76px;background:var(--dark);color:white;display:flex;align-items:center;padding:18px 14px 10px;gap:11px}.avatar{width:42px;height:42px;display:grid;place-items:center;border-radius:50%;background:#d8f3e8;color:var(--dark);font-size:1.25rem}.clinic{min-width:0;flex:1}.clinic strong{display:block;font-size:.98rem}.clinic small{opacity:.82;font-size:.75rem}.head-icons{direction:ltr;opacity:.9;letter-spacing:.35rem}
+    .chat{height:490px;overflow-y:auto;padding:15px 11px 10px;background-color:var(--chat);background-image:radial-gradient(#92a7a018 1px,transparent 1px);background-size:13px 13px;scroll-behavior:smooth}.day{text-align:center;margin:2px 0 12px}.day span{background:#fff;padding:5px 9px;border-radius:7px;box-shadow:0 1px 2px #0001;color:#60736e;font-size:.7rem}.row{display:flex;margin:6px 0}.row.customer{justify-content:flex-start}.row.bot{justify-content:flex-end}.bubble{position:relative;max-width:83%;padding:8px 10px 5px;border-radius:8px;box-shadow:0 1px 1px #00000018;line-height:1.45;font-size:.92rem;white-space:pre-line}.customer .bubble{background:var(--out);border-top-left-radius:2px}.bot .bubble{background:white;border-top-right-radius:2px}.time{direction:ltr;display:inline-block;color:#73827e;font-size:.65rem;margin-right:8px;vertical-align:-2px}.checks{color:#53bdeb;font-weight:bold}.system-card{margin:10px auto;max-width:92%;padding:9px 11px;background:#fff9d9;border-radius:8px;text-align:center;color:#716734;font-size:.74rem;box-shadow:0 1px 2px #0001}.typing .bubble{display:flex;gap:4px;padding:12px 15px}.typing i{width:7px;height:7px;border-radius:50%;background:#8a9995;animation:pulse 1.1s infinite}.typing i:nth-child(2){animation-delay:.16s}.typing i:nth-child(3){animation-delay:.32s}@keyframes pulse{0%,60%,100%{opacity:.3;translate:0 0}30%{opacity:1;translate:0 -3px}}
+    .composer{height:68px;background:#f0f2f5;padding:10px;display:flex;direction:rtl;gap:8px;align-items:center}.composer input{min-width:0;flex:1;border:0;border-radius:22px;padding:11px 15px;outline:none}.send{border:0;width:44px;height:44px;border-radius:50%;background:var(--green);color:white;cursor:pointer;font-size:1.15rem}.send:disabled{opacity:.55}.reset{border:0;background:none;color:#60736e;cursor:pointer;font-size:1.15rem}
+    .panel{direction:rtl}.panel h2{margin:0 0 7px}.panel>p{color:var(--muted);line-height:1.55;margin-top:0}.scenarios{display:grid;gap:10px}.scenario{border:1px solid var(--line);background:white;border-radius:14px;padding:14px;text-align:right;cursor:pointer;color:var(--ink);transition:.18s}.scenario:hover,.scenario:focus{border-color:var(--green);translate:0 -2px;box-shadow:0 8px 24px #0b6b5520}.scenario b{display:block;margin-bottom:4px}.scenario small{color:var(--muted)}.engine{margin-top:18px;background:#0d3f36;color:white;border-radius:14px;padding:15px}.engine strong{display:block;margin-bottom:6px}.engine-output{font-size:.78rem;line-height:1.5;color:#cce9e1}.dot{display:inline-block;width:7px;height:7px;background:#3de3b8;border-radius:50%;margin-left:5px}
+    .how{max-width:820px;margin:48px auto 0}.how h2{text-align:center}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.step{background:white;border:1px solid var(--line);border-radius:15px;padding:18px}.step span{display:grid;place-items:center;width:31px;height:31px;background:#dff8ef;color:var(--dark);border-radius:9px;font-weight:bold}.step h3{margin:12px 0 5px;font-size:1rem}.step p{color:var(--muted);font-size:.88rem;line-height:1.5;margin:0}
+    @media(max-width:760px){.simulator{grid-template-columns:minmax(280px,410px)}.panel{grid-row:1}.phone{grid-row:2}.steps{grid-template-columns:1fr}.page{padding-inline:12px}}
+  </style>
+</head>
+<body>
+<main class="page">
+  <div class="demo-banner"><b>דמו</b> — כך ייראה הבוט שלך בוואטסאפ. חיבור אמיתי דורש WhatsApp Business API</div>
+  <header class="intro"><div class="brand">WHATS<span dir="ltr">BIZ</span></div><h1>המרפאה עונה. גם כשאתם בטיפול.</h1><p>נסו שיחה אמיתית כלקוח: הבוט מזהה כוונה, עונה על שאלות, מציע תורים ומכין תזכורות אוטומטיות.</p></header>
+  <section class="simulator" aria-label="סימולטור שיחת WhatsApp">
+    <div class="phone">
+      <header class="wa-head"><div class="avatar">🦷</div><div class="clinic"><strong>מרפאת שיניים דוגמה</strong><small id="status">מחוברת</small></div><div class="head-icons">⋮ ☎</div></header>
+      <div class="chat" id="chat" aria-live="polite"><div class="day"><span>היום</span></div></div>
+      <form class="composer" id="composer"><button class="reset" type="button" id="reset" title="איפוס השיחה">↻</button><input id="message" autocomplete="off" placeholder="כתיבת הודעה" aria-label="הודעת לקוח"><button class="send" id="send" title="שליחה">➤</button></form>
+    </div>
+    <aside class="panel"><h2>בחרו תרחיש</h2><p>או כתבו כל שאלה בשדה ההודעה. אתם הלקוח — WhatsBiz מטפל בצד של העסק.</p><div class="scenarios">
+      <button class="scenario" data-scenario="booking"><b>📅 הזמנת תור</b><small>בקשה ליום שלישי, בחירת שעה ואישור</small></button>
+      <button class="scenario" data-scenario="price"><b>💬 שאלת מחיר</b><small>מענה מיידי מבסיס הידע של המרפאה</small></button>
+      <button class="scenario" data-scenario="cancel"><b>🔔 ביטול + תזכורת</b><small>ביטול תור קיים והמחשת מניעת no-show</small></button>
+    </div><div class="engine"><strong><span class="dot"></span>המנוע בזמן אמת</strong><div class="engine-output" id="engine">ממתין להודעת לקוח…</div></div></aside>
+  </section>
+  <section class="how"><h2>איך זה עובד לעסק?</h2><div class="steps"><article class="step"><span>1</span><h3>מחברים את הידע</h3><p>שעות, מחירים, שירותים ותורים זמינים מוגדרים פעם אחת.</p></article><article class="step"><span>2</span><h3>הבוט מבין ועונה</h3><p>כל הודעה מסווגת להזמנה, שאלת מידע או בקשה שדורשת נציג.</p></article><article class="step"><span>3</span><h3>היומן נשאר מלא</h3><p>אישורים ותזכורות נשלחים אוטומטית, וביטולים מפנים מקום ללקוח הבא.</p></article></div></section>
+</main>
+<script>
+// Browser-safe equivalents of the repository's pure CommonJS modules.
+function detectLanguage(text){if(typeof text!=="string")return"unknown";let he=0,latin=0;for(const ch of text){if(ch>="א"&&ch<="ת")he++;else if(/[A-Za-z]/.test(ch))latin++}const letters=he+latin;if(!letters)return"unknown";if(he/letters>.3)return"he";if(latin/letters>.3)return"en";return"unknown"}
+function parseBookingRequest(message){if(!message||typeof message!=="string")return null;const lower=message.toLowerCase();if(!["תור","לקבוע","להזמין","קבע","הזמן"].some(k=>lower.includes(k)))return null;let service=["טיפול","ניקוי","בדיקה","השתלה"].find(s=>new RegExp(`תור ל${s}`,"i").test(message))||null;let date=null;const today=new Date(),tomorrow=new Date(today),nextWeek=new Date(today);tomorrow.setDate(today.getDate()+1);nextWeek.setDate(today.getDate()+7);if(/מחר/i.test(message))date=tomorrow.toISOString().slice(0,10);else if(/בשבוע הבא/i.test(message))date=nextWeek.toISOString().slice(0,10);let time=null,tm=message.match(/בשעה\s*(\d{1,2}:\d{2})/i);if(tm){const[h,m]=tm[1].split(":").map(Number);if(h<=23&&m<=59)time=`${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}`}let confidence=(service?0.33:0)+(date?0.33:0)+(time?0.33:0);return{service,date,time,patientName:null,confidence:Math.round(confidence*100)/100}}
+function scheduleReminders(bookingStart,opts={}){const start=new Date(bookingStart),now=opts.now?new Date(opts.now):new Date();if(isNaN(start)||isNaN(now))return[];return(opts.hoursBefore?.length?opts.hoursBefore:[24,2]).map(Number).filter(h=>isFinite(h)&&h>0).map(h=>({hoursBefore:h,sendAt:new Date(start-h*36e5)})).filter(r=>r.sendAt>now&&r.sendAt<start).sort((a,b)=>a.sendAt-b.sendAt).map(r=>({...r,sendAt:r.sendAt.toISOString()}))}
+function normalize(s){return s.replace(/[\u0591-\u05c7]/g,"").replace(/[^\u0590-\u05ff\s]/g,"").trim().toLowerCase()}
+function matchClinicFAQ(message,faqs){const tokens=new Set(normalize(message).split(/\s+/).filter(Boolean));let best=null,score=0;for(const faq of faqs){const keys=new Set(faq.keywords.flatMap(k=>normalize(k).split(/\s+/)));const hits=[...tokens].filter(t=>keys.has(t)).length;const current=hits/Math.max(1,new Set([...tokens,...keys]).size);if(current>score){score=current;best=faq}}return best&&score>0?{answer:best.answer,confidence:score,needsHuman:score<.3}:{answer:"לא מצאתי תשובה מדויקת. אחבר אתכם לנציגת המרפאה.",confidence:0,needsHuman:true}}
+const faqs=[
+ {question:"כמה עולה ניקוי אבנית",keywords:["כמה","עולה","מחיר","ניקוי","אבנית","שיננית"],answer:"ניקוי אבנית אצל שיננית עולה 280 ₪ ונמשך כ־45 דקות. תרצו שאמצא תור פנוי?"},
+ {question:"מה הכתובת",keywords:["איפה","כתובת","מיקום","חניה"],answer:"אנחנו ברחוב הבריאות 12, תל אביב. יש חניון בתשלום בבניין וחניה כחול־לבן ברחוב."},
+ {question:"שעות פתיחה",keywords:["שעות","פתוח","פתוחים","מתי"],answer:"המרפאה פתוחה א׳–ה׳ 08:00–19:00 וביום ו׳ 08:00–13:00."},
+ {question:"טיפול חירום",keywords:["כאב","חירום","דחוף","נפיחות"],answer:"מצטערים לשמוע. במקרה דחוף נציגת המרפאה תחזור אליכם בהקדם. אם יש קושי בנשימה יש לפנות מיד למוקד חירום."}
+];
+const $=id=>document.getElementById(id),chat=$("chat"),engine=$("engine"),input=$("message"),statusEl=$("status");let busy=false,bookingStage=0;
+function now(){return new Intl.DateTimeFormat("he-IL",{hour:"2-digit",minute:"2-digit",hour12:false}).format(new Date())}
+function bubble(text,who="bot",meta=""){const row=document.createElement("div");row.className=`row ${who}`;const b=document.createElement("div");b.className="bubble";b.textContent=text;const t=document.createElement("span");t.className="time";t.innerHTML=`${now()} ${who==="customer"?'<span class="checks">✓✓</span>':""}`;b.append(" ",t);row.appendChild(b);chat.appendChild(row);if(meta){const card=document.createElement("div");card.className="system-card";card.textContent=meta;chat.appendChild(card)}chat.scrollTop=chat.scrollHeight}
+function typing(show){document.querySelector(".typing")?.remove();if(show){const row=document.createElement("div");row.className="row bot typing";row.innerHTML='<div class="bubble"><i></i><i></i><i></i></div>';chat.appendChild(row);statusEl.textContent="מקלידה…";chat.scrollTop=chat.scrollHeight}else statusEl.textContent="מחוברת"}
+function futureTuesday(){const d=new Date();let add=(2-d.getDay()+7)%7||7;d.setDate(d.getDate()+add);d.setHours(16,30,0,0);return d}
+function engineUpdate(kind,msg,extra=""){const lang=detectLanguage(msg);engine.textContent=`שפה: ${lang==="he"?"עברית":lang==="en"?"אנגלית":"לא ידועה"} · כוונה: ${kind}${extra?` · ${extra}`:""}`}
+async function botReply(text,meta=""){typing(true);await new Promise(r=>setTimeout(r,650));typing(false);bubble(text,"bot",meta)}
+async function handle(msg){if(busy||!msg.trim())return;busy=true;input.disabled=true;$("send").disabled=true;bubble(msg,"customer");const parsed=parseBookingRequest(msg),lower=msg.toLowerCase();
+ if(parsed||/יום שלישי|לקבוע|תור/.test(lower)){bookingStage=1;engineUpdate("הזמנת תור",msg,`ביטחון ${Math.round((parsed?.confidence||.66)*100)}%`);await botReply("בשמחה 😊 ביום שלישי הקרוב פנויים לנו 10:00, 16:30 או 18:00. איזו שעה נוחה לכם?")}
+ else if(bookingStage===1&&/10|16|18|כן|מתאים/.test(lower)){bookingStage=2;const start=futureTuesday(),reminders=scheduleReminders(start,{now:new Date()});engineUpdate("אישור הזמנה",msg,`${reminders.length} תזכורות תוכננו`);await botReply("מעולה, שמרתי לכם תור לניקוי אבנית ביום שלישי בשעה 16:30. נא להשיב ״מאשר/ת״ כדי לסיים.")}
+ else if(bookingStage===2&&/מאשר|כן/.test(lower)){bookingStage=0;const start=futureTuesday(),rems=scheduleReminders(start,{now:new Date()});engineUpdate("תור אושר",msg,"תזכורות 24 ו־2 שעות לפני");await botReply("התור אושר ✅ נשלח לכם תזכורת לפני ההגעה. אפשר לבטל כאן בכל עת.",rems.map(r=>`תזכורת ${r.hoursBefore} שעות לפני`).join(" · "))}
+ else if(/לבטל|ביטול|מבטל/.test(lower)){bookingStage=0;engineUpdate("ביטול תור",msg,"היומן עודכן");await botReply("התור בוטל בהצלחה. המקום התפנה ביומן ולא תישלח תזכורת. תרצו לקבוע מועד חדש?","WhatsBiz עדכן את היומן ועצר את התזכורות")}
+ else{const faq=matchClinicFAQ(msg,faqs);engineUpdate(faq.needsHuman?"העברה לנציג":"שאלת מידע",msg,`התאמת FAQ ${Math.round(faq.confidence*100)}%`);await botReply(faq.answer)}busy=false;input.disabled=false;$("send").disabled=false;input.focus()}
+function reset(){chat.innerHTML='<div class="day"><span>היום</span></div>';bookingStage=0;engine.textContent="ממתין להודעת לקוח…";bubble("שלום 👋 הגעתם למרפאת שיניים דוגמה. איך אפשר לעזור?","bot")}
+$("composer").addEventListener("submit",e=>{e.preventDefault();const msg=input.value;input.value="";handle(msg)});$("reset").addEventListener("click",reset);
+const scenarios={booking:["אפשר תור לניקוי ביום שלישי?","16:30 מתאים לי","מאשרת"],price:["כמה עולה ניקוי אבנית?"],cancel:["אני רוצה לבטל את התור שלי","אפשר תור ביום שלישי?","16:30","מאשר"]};
+document.querySelectorAll("[data-scenario]").forEach(btn=>btn.addEventListener("click",async()=>{reset();for(const msg of scenarios[btn.dataset.scenario]){while(busy)await new Promise(r=>setTimeout(r,80));await new Promise(r=>setTimeout(r,350));await handle(msg)}if(btn.dataset.scenario==="cancel"){while(busy)await new Promise(r=>setTimeout(r,80));await new Promise(r=>setTimeout(r,400));await handle("בעצם אני רוצה לבטל את התור")}}));reset();
+</script>
+</body></html>
