@@ -31,7 +31,7 @@ app.include_router(chat.router)
 STATIC_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "static")
 TEMPLATES_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "templates")
 
-app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+app.mount("/static", StaticFiles(directory=STATIC_DIR, check_dir=False), name="static")
 
 
 @app.get("/health")
